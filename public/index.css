@@ -1,0 +1,18 @@
+*{
+    text-align: center;
+}
+#title{
+    font-weight: 200;
+}
+#subtitle{
+    font-weight: 300;
+}
+#s1{
+    padding-top: 210px;
+}
+#start{
+    margin-top: 360px;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+}

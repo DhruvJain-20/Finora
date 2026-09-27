@@ -1,0 +1,12 @@
+pre {
+    display: inline;
+}
+#submit_t {
+    margin-left: 70px;
+}
+input {
+    width: 175px;
+}
+select {
+    width: 175px;
+}

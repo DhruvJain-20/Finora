@@ -1,12 +1,67 @@
+body {
+     background-color: #e8ecf1;
+}
+#f {
+    text-align: center;
+}
 pre {
     display: inline;
 }
 #submit_t {
-    margin-left: 70px;
+    margin-top: 50px;
+    height: 30px;
+    background-color: #e8ecf1;
 }
 input {
     width: 175px;
+    height: 20px;
+    border-radius: 5px;
+    background-color: #e8ecf1;
 }
 select {
-    width: 175px;
+    width: 176px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #e8ecf1;
+}
+#transaction_form {
+    background-color: #3d007a;
+    color: #e8ecf1;
+    text-align: center;
+    padding: 50px;
+    display: inline-block;
+    border-radius: 30px;
+    font-family: 'Arial';
+}
+#income {
+    display: flex;
+}
+#expense {
+    display: flex;
+}
+.box {
+    text-align: center;
+    background-color: #3d007a;
+    color: #e8ecf1;
+    width: 150px;
+    border-radius: 30px;
+    margin: 10px;
+}
+#c {
+    font-size: larger;
+    font-weight: 700;
+}
+#cat {
+    background-color: #3d007a;
+    color: #e8ecf1;
+    padding: 30px;
+    display: inline-block;
+    border-radius: 30px;
+}
+.pre {
+    display: block;
+}
+#tot {
+    font-size: larger;
+    font-weight: 700;
 }

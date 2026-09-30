@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+    <div id="f">
     <form id="transaction_form">
         <pre>Amount:        </pre>
         <input type="number" name="amount" placeholder="Enter amount" id="amt">
@@ -58,7 +59,18 @@
         <br>
         <input type="submit" id="submit_t" value="Add Transaction">
     </form>
-    <div id="tList"></div>
+    </div>
+    <p id="c">Income: </p>
+    <div id="income"> 
+    </div>
+    <p id="c">Expense: </p>
+    <div id="expense">
+    </div>
+    <p id="c">Total Expenses Category-wise :</p> 
+    <div id="cat">
+    </div>
+    <div id="tot">
+    </div>
     <script src="dashboard.js"></script>
 </body>
 </html>

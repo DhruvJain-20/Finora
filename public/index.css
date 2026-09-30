@@ -1,8 +1,10 @@
 *{
     text-align: center;
+    color: #3d007a;
+    background-color: #e8ecf1;
 }
 #title{
-    font-weight: 200;
+    font-weight: 300;
 }
 #subtitle{
     font-weight: 300;
@@ -11,8 +13,10 @@
     padding-top: 210px;
 }
 #start{
-    margin-top: 360px;
+    margin-top: 350px;
     border-radius: 5px;
     width: 150px;
     height: 50px;
+    background-color: #3d007a;
+    color: #e8ecf1;
 }

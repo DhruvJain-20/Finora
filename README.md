@@ -18,12 +18,16 @@ and get personalized financial insights.
 
 ## 🛠️ Tech Stack
 
-- React
-- Tailwind CSS
+- HTML5
+- EJS
+- CSS3
+- Javascript
 - Node.js
 - Express.js
 - PostgreSQL / Supabase
 - Gemini API
+- Git & Github
+- Vercel
 
 ## 📌 Project Status
 

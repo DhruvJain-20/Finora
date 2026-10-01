@@ -41,9 +41,10 @@ select {
 }
 .box {
     text-align: center;
+    display: inline-block;
     background-color: #3d007a;
     color: #e8ecf1;
-    width: 150px;
+    width: 170px;
     border-radius: 30px;
     margin: 10px;
 }
@@ -64,4 +65,17 @@ select {
 #tot {
     font-size: larger;
     font-weight: 700;
+}
+.up {
+    margin: 10px;
+    margin-left: 20px;
+    border-radius: 15px;
+    width: 50px;
+    background-color: rgb(195, 191, 191);
+}
+.del {
+    margin: 10px;
+    border-radius: 15px;
+    width: 50px;
+    background-color: rgb(225, 147, 147);
 }

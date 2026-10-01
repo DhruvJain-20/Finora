@@ -1,3 +1,4 @@
+let editingId = null;
 form = document.getElementById('transaction_form');
 form.addEventListener('submit',async (e)=>{
     // e.preventDefault();
@@ -10,12 +11,27 @@ form.addEventListener('submit',async (e)=>{
         date : document.getElementById("date").value,
         payment_method : document.getElementById("payment").value,
     };
-    console.log("Sending:", transaction);
-    const response = await fetch('/transactions',{
-        method : "POST",
-        headers : {"Content-Type": "application/json"},
-        body : JSON.stringify(transaction)
-    });
+    if (editingId) 
+    {
+        response = await fetch(`/transactions/${editingId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(transaction)
+        });
+        editingId = null;
+    } 
+    else 
+    {
+        response = await fetch("/transactions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(transaction)
+        });
+    }
     const data = await response.json();
     console.log("Server response:", data);
 })
@@ -38,7 +54,9 @@ async function loadTransactions() {
             <h3>${transaction.category}</h3>
             <p>₹${transaction.amount}</p>
             <p>${transaction.description}</p>
-            <p>${transaction.merchant}</p>`;
+            <p>${transaction.merchant}</p>
+            <button class='up' data-id='${transaction.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
+            <button class='del' data-id='${transaction.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
         if(transaction.type == 'Income')
         {
             const transactionsList = document.getElementById("income");
@@ -79,6 +97,31 @@ async function loadTransactions() {
                 other = other + transaction.amount;
             }
         }
+        const del = div.querySelector(".del");
+        del.addEventListener('click',async ()=>{
+            console.log('Delete Button Clicked')
+            const id = del.dataset.id;
+            console.log(id)
+            const response = await fetch(`/transactions/${id}`,{
+                method : "DELETE"
+            });
+            const data = await response.json();
+            console.log(data);
+            window.location.reload();
+        })
+        const up = div.querySelector(".up");
+        up.addEventListener('click',()=>{
+            const id = up.dataset.id;
+            console.log(id);
+            console.log(transaction);
+            editingId = transaction.id;
+            document.getElementById("amt").value = transaction.amount;
+            document.getElementById("type").value = transaction.type;
+            document.getElementById("category").value = transaction.category;
+            document.getElementById("description").value = transaction.description;
+            document.getElementById("merchant").value = transaction.merchant;
+
+        })
     });
     const calc = document.getElementById("tot");
     if((ti-te)>=0)

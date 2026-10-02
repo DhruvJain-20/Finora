@@ -1,7 +1,107 @@
 let editingId = null;
+
+function display_cat(food,shop,transport,bill,entertain,health,other)
+{
+    const cat = document.getElementById("cat");
+    const cf = document.getElementById("cat_fil").value
+    if(cf == 'All')
+    {
+        cat.innerHTML = `
+        <pre class='pre'>Food          : ₹ ${food}</pre>
+        <pre class='pre'>Shopping      : ₹ ${shop}</pre>
+        <pre class='pre'>Transport     : ₹ ${transport}</pre>
+        <pre class='pre'>Bills         : ₹ ${bill}</pre>
+        <pre class='pre'>Entertainment : ₹ ${entertain}</pre>
+        <pre class='pre'>Healthcare    : ₹ ${health}</pre>
+        <pre class='pre'>Other         : ₹ ${other}</pre>`;
+    }
+    else if(cf == 'Food')
+    {
+        cat.innerHTML = `<pre class='pre'>Food          : ₹ ${food}</pre>`;
+    }
+    else if(cf == 'Shopping')
+    {
+        cat.innerHTML = `<pre class='pre'>Shopping      : ₹ ${shop}</pre>`
+    }
+    else if(cf == 'Transport')
+    {
+        cat.innerHTML = `<pre class='pre'>Transport     : ₹ ${transport}</pre>`
+    }
+    else if(cf == 'Bills')
+    {
+        cat.innerHTML = `<pre class='pre'>Bills         : ₹ ${bill}</pre>`
+    }
+    else if(cf == 'Entertainment')
+    {
+        cat.innerHTML = `<pre class='pre'>Entertainment : ₹ ${entertain}</pre>`
+    }
+    else if(cf == 'Healthcare')
+    {
+        cat.innerHTML = `<pre class='pre'>Healthcare    : ₹ ${health}</pre>`
+    }
+    else if(cf == 'Other')
+    {
+        cat.innerHTML = `<pre class='pre'>Other         : ₹ ${other}</pre>`
+    }
+}
+
+function dislplay_type(transactions,tv,sv)
+{
+    document.getElementById("income").innerHTML = "";
+    document.getElementById("expense").innerHTML = "";
+    transactions.forEach(transaction => {
+        const div = document.createElement("div");
+        div.classList.add('box');
+        div.innerHTML = `
+            <h3>${transaction.category}</h3>
+            <p>₹${transaction.amount}</p>
+            <p>${transaction.description}</p>
+            <p>${transaction.merchant}</p>
+            <p>${transaction.date}</p>
+            <p>${transaction.payment_method}</p>
+            <button class='up' data-id='${transaction.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
+            <button class='del' data-id='${transaction.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
+        if(transaction.type == 'Income' && (tv == 'Income' || tv == 'All') && (sv == '' || transaction.description.toLowerCase().includes(sv) || transaction.merchant.toLowerCase().includes(sv) || transaction.category.toLowerCase().includes(sv)))
+        {
+            const transactionsList = document.getElementById("income");
+            transactionsList.appendChild(div);
+        }
+        else if(transaction.type == 'Expense'  && (tv == 'Expense' || tv == 'All') && (sv == '' || transaction.description.toLowerCase().includes(sv) || transaction.merchant.toLowerCase().includes(sv) || transaction.category.toLowerCase().includes(sv)))
+        {
+            const transactionsList = document.getElementById("expense");
+            transactionsList.appendChild(div);
+        }
+        const del = div.querySelector(".del");
+        del.addEventListener('click',async ()=>{
+            console.log('Delete Button Clicked')
+            const id = del.dataset.id;
+            console.log(id)
+            const response = await fetch(`/transactions/${id}`,{
+                method : "DELETE"
+            });
+            const data = await response.json();
+            console.log(data);
+            window.location.reload();
+        })
+        const up = div.querySelector(".up");
+        up.addEventListener('click',()=>{
+            const id = up.dataset.id;
+            console.log(id);
+            console.log(transaction);
+            editingId = transaction.id;
+            document.getElementById("amt").value = transaction.amount;
+            document.getElementById("type").value = transaction.type;
+            document.getElementById("category").value = transaction.category;
+            document.getElementById("description").value = transaction.description;
+            document.getElementById("merchant").value = transaction.merchant;
+            document.getElementById("date").value = transaction.date;
+            document.getElementById("payment").value = transaction.payment_method;
+        })
+    })
+}
+
 form = document.getElementById('transaction_form');
 form.addEventListener('submit',async (e)=>{
-    // e.preventDefault();
     const transaction = {
         amount : document.getElementById("amt").value,
         type : document.getElementById("type").value,
@@ -55,6 +155,8 @@ async function loadTransactions() {
             <p>₹${transaction.amount}</p>
             <p>${transaction.description}</p>
             <p>${transaction.merchant}</p>
+            <p>${transaction.date}</p>
+            <p>${transaction.payment_method}</p>
             <button class='up' data-id='${transaction.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
             <button class='del' data-id='${transaction.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
         if(transaction.type == 'Income')
@@ -120,7 +222,8 @@ async function loadTransactions() {
             document.getElementById("category").value = transaction.category;
             document.getElementById("description").value = transaction.description;
             document.getElementById("merchant").value = transaction.merchant;
-
+            document.getElementById("date").value = transaction.date;
+            document.getElementById("payment").value = transaction.payment_method;
         })
     });
     const calc = document.getElementById("tot");
@@ -138,14 +241,53 @@ async function loadTransactions() {
         <p>Total Expenses : ₹ ${te}</p>
         <p>Balance : - ₹ ${te - ti}</p>`;
     }
-    const cat = document.getElementById("cat");
-    cat.innerHTML = `
-        <pre class='pre'>Food          : ₹ ${food}</pre>
-        <pre class='pre'>Shopping      : ₹ ${shop}</pre>
-        <pre class='pre'>Transport     : ₹ ${transport}</pre>
-        <pre class='pre'>Bills         : ₹ ${bill}</pre>
-        <pre class='pre'>Entertainment : ₹ ${entertain}</pre>
-        <pre class='pre'>Healthcare    : ₹ ${health}</pre>
-        <pre class='pre'>Other         : ₹ ${other}</pre>`;
+    display_cat(food,shop,transport,bill,entertain,health,other);
+    document.getElementById('apply').addEventListener('click',()=>{
+    display_cat(food,shop,transport,bill,entertain,health,other);
+})
+    document.getElementById("apply_fil").addEventListener('click',()=>{
+        let tv = document.getElementById("type_fil").value;
+        let sv = document.getElementById("search").value.toLowerCase().trim();
+        if(tv == "All")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "Income: ";
+            document.querySelector('.e').innerText = "Expense: ";
+        }
+        else if(tv == "Income")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "Income: ";
+            document.querySelector('.e').innerText = "";
+        }
+        else if(tv == "Expense")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "";
+            document.querySelector('.e').innerText = "Expense: ";
+        }
+    })
+    document.getElementById("sb").addEventListener('click',()=>{
+        let tv = document.getElementById("type_fil").value;
+        let sv = document.getElementById("search").value.toLowerCase().trim();
+        if(tv == "All")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "Income: ";
+            document.querySelector('.e').innerText = "Expense: ";
+        }
+        else if(tv == "Income")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "Income: ";
+            document.querySelector('.e').innerText = "";
+        }
+        else if(tv == "Expense")
+        {
+            dislplay_type(transactions,tv,sv);
+            document.querySelector('.i').innerText = "";
+            document.querySelector('.e').innerText = "Expense: ";
+        }
+    })
 }
 loadTransactions();

@@ -10,7 +10,7 @@ pre {
 #submit_t {
     margin-top: 50px;
     height: 30px;
-    background-color: #e8ecf1;
+    background-color: rgb(195, 191, 191);
 }
 input {
     width: 175px;
@@ -56,8 +56,9 @@ select {
     background-color: #3d007a;
     color: #e8ecf1;
     padding: 30px;
-    display: inline-block;
+    display: block;
     border-radius: 30px;
+    width: 160px;
 }
 .pre {
     display: block;
@@ -78,4 +79,28 @@ select {
     border-radius: 15px;
     width: 50px;
     background-color: rgb(225, 147, 147);
+}
+#cat_fil {
+    margin-bottom: 15px;
+    width: 105px;
+}
+#apply {
+    background-color: rgb(195, 191, 191);
+    border-radius: 5px;
+}
+#type_fil {
+    margin-bottom: 15px;
+    width: 105px;
+}
+#apply_fil {
+    background-color: rgb(195, 191, 191);
+    border-radius: 5px;
+}
+#search {
+    width: 300px;
+    height: 22px;
+}
+#sb {
+    background-color: rgb(195, 191, 191);
+    border-radius: 3px;
 }

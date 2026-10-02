@@ -61,15 +61,44 @@
         <input type="submit" id="submit_t" value="Add Transaction">
     </form>
     </div>
-    <p id="c">Income: </p>
+    <br>
+    <hr>
+    <br>
+    <div>
+    <button id="sb"><i class="fa-solid fa-magnifying-glass" style="color: rgb(0, 0, 0);"></i></button>
+    <input id="search" type="Search" placeholder="Search">
+    </div>
+    <p style="display:inline-block;">Filter: </p>
+    <select id="type_fil">
+        <option>All</option>
+        <option>Income</option>
+        <option>Expense</option>
+    </select>
+    <button id="apply_fil">Apply</button>
+    <p id="c" class="i">Income: </p>
     <div id="income"> 
     </div>
-    <p id="c">Expense: </p>
+    <p id="c" class="e">Expense: </p>
     <div id="expense">
     </div>
+    <hr>
     <p id="c">Total Expenses Category-wise :</p> 
+    <p style="display:inline-block;">Filter: </p>
+    <select id="cat_fil">
+        <option>All</option>
+        <option>Food</option>
+        <option>Shopping</option>
+        <option>Transport</option>
+        <option>Bills</option>
+        <option>Entertainment</option>
+        <option>Healthcare</option>
+        <option>Other</option>
+    </select>
+    <button id="apply">Apply</button>
     <div id="cat">
     </div>
+    <br>
+    <hr>
     <div id="tot">
     </div>
     <script src="dashboard.js"></script>

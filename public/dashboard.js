@@ -340,3 +340,36 @@ async function loadTransactions() {
         })
 }
 loadTransactions();
+
+document.getElementById('b_form').addEventListener('submit',async ()=>{
+    const budget = {
+        category : document.getElementById('b_cat').value,
+        amount : document.getElementById('b_amt').value,
+        month : document.getElementById('b_mon').value
+    }
+    const response = await fetch('/budget',{
+        method : 'POST',
+        headers : {'content-type' : 'application/json'},
+        body : JSON.stringify(budget)
+    })
+    const data = await response.json();
+    console.log("Server response:", data);
+})
+
+async function bgts()
+{
+    const response = await fetch('/budget');
+    const budgets = await response.json();
+    let d = document.getElementById('b_temp');
+    budgets.forEach(budget => {
+        const div = document.createElement('div');
+        div.innerHTML = "";
+        div.id = 'temp_bgts';
+        div.innerHTML = `
+        <h3 id='temp_cat'>${budget.category}</h3>
+        <p id='temp_amt'>${budget.amount}</p>
+        <p id='temp_mon'>${budget.month}</p>`;
+        d.appendChild(div);
+    })
+}
+bgts();

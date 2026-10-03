@@ -10,6 +10,8 @@
 <body>
     <div id="f">
     <form id="transaction_form">
+        <h3>Transactions</h3>
+        <br>
         <pre>Amount:        </pre>
         <input type="number" name="amount" placeholder="Enter amount" id="amt" min="1" required>
         <br>
@@ -111,6 +113,41 @@
     <hr>
     <div id="tot">
     </div>
+    <hr>
+    <br>
+    <div id="f">
+        <form id="b_form">
+            <h3>Set Budget</h3>
+            <br>
+            <pre>Category : </pre>
+            <select id="b_cat" name="category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Transport">Transport</option>
+            <option value="Bills">Bills</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Other">Other</option>
+            </select>
+            <br>
+            <br>
+            <pre> Amount   : </pre>
+            <input type="number" min="1" required id="b_amt" placeholder="Enter amount" name="amount">
+            <br>
+            <br>
+            <pre> Month    : </pre>
+            <input type="text" name="month" placeholder="Enter month" id="b_mon" required>
+            <br>
+            <br>
+            <input type="submit" id="b_sub" value="Add Budget">
+        </form>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h3>Your Budgets: </h3>
+    <div id="b_temp"></div>
     <script src="dashboard.js"></script>
 </body>
 </html>

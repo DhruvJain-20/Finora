@@ -28,7 +28,9 @@ select {
     background-color: #3d007a;
     color: #e8ecf1;
     text-align: center;
-    padding: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
     display: inline-block;
     border-radius: 30px;
     font-family: 'Arial';
@@ -103,4 +105,29 @@ select {
 #sb {
     background-color: rgb(195, 191, 191);
     border-radius: 3px;
+}
+#b_form {
+    background-color: #3d007a;
+    color: #e8ecf1;
+    text-align: center;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: inline-block;
+    border-radius: 30px;
+    font-family: 'Arial';
+}
+#b_sub {
+    margin-top: 50px;
+    height: 30px;
+    background-color: rgb(195, 191, 191);
+}
+#temp_bgts {
+    text-align: center;
+    display: inline-block;
+    background-color: #3d007a;
+    color: #e8ecf1;
+    width: 170px;
+    border-radius: 30px;
+    margin: 10px;
 }

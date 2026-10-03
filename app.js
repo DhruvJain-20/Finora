@@ -70,6 +70,31 @@ app.put("/transactions/:id",async (req,res) => {
     res.json(data);
 })
 
+app.get('/budget',async (req,res)=>{
+    const {data,error} = await supabase.from('budgets').select('*');
+    if(error)
+    {
+        return res.status(500).json({error : error.message});
+    }
+    res.json(data);
+})
+
+app.post('/budget',async (req,res)=>{
+    const {category,amount,month} = req.body;
+    const {data,error} = await supabase.from('budgets').insert([
+        {
+            category,
+            amount,
+            month
+        }
+    ]).select()
+    if(error)
+    {
+        return res.status(500).json({ error : error.message });
+    }
+    res.status(201).json(data);
+});
+
 app.listen(3000, () => {
     console.log("Finora running on port 3000");
 });

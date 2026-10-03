@@ -11,20 +11,20 @@
     <div id="f">
     <form id="transaction_form">
         <pre>Amount:        </pre>
-        <input type="number" name="amount" placeholder="Enter amount" id="amt">
+        <input type="number" name="amount" placeholder="Enter amount" id="amt" min="1" required>
         <br>
         <br>
         <pre>Type:          </pre>
-        <select id="type" name="type">
-            <option>Select Type</option>
+        <select id="type" name="type" required>
+            <option value="" disabled selected>Select Type</option>
             <option value="Income">Income</option>
             <option value="Expense">Expense</option>
         </select>
         <br>
         <br>
         <pre>Category:      </pre>
-        <select id="category" name="category">
-            <option>Select Category</option>
+        <select id="category" name="category" required>
+            <option value="" disabled selected>Select Category</option>
             <option value="Food">Food</option>
             <option value="Shopping">Shopping</option>
             <option value="Transport">Transport</option>
@@ -36,20 +36,20 @@
         <br>
         <br>
         <pre>Description:   </pre>
-        <input type="text" name="description" placeholder="Enter description" id="description">
+        <input type="text" name="description" placeholder="Enter description" id="description" required>
         <br>
         <br>
         <pre>Merchant:      </pre>
-        <input type="text" name="merchant" placeholder="Enter merchant name" id="merchant">
+        <input type="text" name="merchant" placeholder="Enter merchant name" id="merchant" required>
         <br>
         <br>
         <pre>Date:          </pre>
-        <input type="date" name="date" id="date">
+        <input type="date" name="date" id="date" required>
         <br>
         <br>
         <pre>Payment:       </pre>
-        <select id="payment">
-            <option>Select mode of payment</option>
+        <select id="payment" required>
+            <option value="" disabled selected>Select mode of payment</option>
             <option value="UPI">UPI</option>
             <option value="Credit Card">Credit Card</option>
             <option value="Debit Card">Debit Card</option>
@@ -75,6 +75,16 @@
         <option>Expense</option>
     </select>
     <button id="apply_fil">Apply</button>
+    <div>
+    <button id="sort_btn" style="background-color: rgb(195,191,191);border-radius: 3px;"><i class="fa-solid fa-sort" style="color: rgb(0, 0, 0);"></i></button>
+    <select id="sort">
+        <option value="" disabled selected>Sort By</option>
+        <option value="Newest">Newest</option>
+        <option value="Oldest">Oldest</option>
+        <option value="Highest">Highest Amount</option>
+        <option value="Lowest">Lowest Amount</option>
+    </select>
+    </div>
     <p id="c" class="i">Income: </p>
     <div id="income"> 
     </div>

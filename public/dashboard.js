@@ -47,6 +47,8 @@ function display_cat(food,shop,transport,bill,entertain,health,other)
 
 function dislplay_type(transactions,tv,sv)
 {
+    let iflag = 0;
+    let eflag = 0;
     document.getElementById("income").innerHTML = "";
     document.getElementById("expense").innerHTML = "";
     transactions.forEach(transaction => {
@@ -65,11 +67,13 @@ function dislplay_type(transactions,tv,sv)
         {
             const transactionsList = document.getElementById("income");
             transactionsList.appendChild(div);
+            iflag = 1;
         }
         else if(transaction.type == 'Expense'  && (tv == 'Expense' || tv == 'All') && (sv == '' || transaction.description.toLowerCase().includes(sv) || transaction.merchant.toLowerCase().includes(sv) || transaction.category.toLowerCase().includes(sv)))
         {
             const transactionsList = document.getElementById("expense");
             transactionsList.appendChild(div);
+            eflag = 1;
         }
         const del = div.querySelector(".del");
         del.addEventListener('click',async ()=>{
@@ -98,10 +102,23 @@ function dislplay_type(transactions,tv,sv)
             document.getElementById("payment").value = transaction.payment_method;
         })
     })
+    if(iflag == 0 && tv != 'Expense')
+    {
+        const pi = document.createElement('p');
+        pi.innerText = "No Income results found";
+        document.getElementById("income").appendChild(pi);
+    }
+    if(eflag == 0 && tv != 'Income')
+    {
+        const pe = document.createElement('p');
+        pe.innerText = "No Expense results found";
+        document.getElementById("expense").appendChild(pe);
+    }
 }
 
 form = document.getElementById('transaction_form');
 form.addEventListener('submit',async (e)=>{
+    e.preventDefault();
     const transaction = {
         amount : document.getElementById("amt").value,
         type : document.getElementById("type").value,
@@ -134,6 +151,7 @@ form.addEventListener('submit',async (e)=>{
     }
     const data = await response.json();
     console.log("Server response:", data);
+    window.location.reload();
 })
 async function loadTransactions() {
     const response = await fetch("/transactions");
@@ -289,5 +307,36 @@ async function loadTransactions() {
             document.querySelector('.e').innerText = "Expense: ";
         }
     })
+    document.getElementById("sort_btn").addEventListener('click',()=>{
+            let sortTransaction = [...transactions];
+            let sort = document.getElementById('sort').value;
+            if(sort == "Newest")
+            {
+                sortTransaction.sort((a,b)=>{
+                    return new Date(b.date) - new Date(a.date);
+                })
+            }
+            else if(sort == "Oldest")
+            {
+                sortTransaction.sort((a,b)=>{
+                    return new Date(a.date) - new Date(b.date);
+                })
+            }
+            else if(sort == "Highest")
+            {
+                sortTransaction.sort((a,b)=>{
+                    return Number(b.amount) - Number(a.amount);
+                })
+            }
+            else if(sort == "Lowest")
+            {
+                sortTransaction.sort((a,b)=>{
+                    return Number(a.amount) - Number(b.amount);
+                })
+            }
+            let tv = document.getElementById("type_fil").value;
+            let sv = document.getElementById("search").value.toLowerCase().trim();
+            dislplay_type(sortTransaction,tv,sv);
+        })
 }
 loadTransactions();

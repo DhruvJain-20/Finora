@@ -61,8 +61,8 @@ app.delete("/transactions/:id", async (req, res) => {
 
 app.put("/transactions/:id",async (req,res) => {
     const id = req.params.id;
-    const { amount, type, category, description, merchant } = req.body;
-    const {data, error} = await supabase.from("transactions").update({amount,type,category,description,merchant}).eq("id",id).select();
+    const { amount, type, category, description, merchant, date, payment_method } = req.body;
+    const {data, error} = await supabase.from("transactions").update({amount,type,category,description,merchant,date,payment_method}).eq("id",id).select();
     if(error)
     {
         return res.status(500).json({error : error.message});

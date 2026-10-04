@@ -396,18 +396,36 @@ async function bgts()
         let barPercentage = Math.min(percentage, 100);
         div.innerHTML = "";
         div.id = 'temp_bgts';
-        div.innerHTML = `
-        <h3 id='temp_cat'>${budget.category}</h3>
-        <p id='temp_amt'>Budget : ₹${budget.amount}</p>
-        <p id='temp_spent'>Spent : ₹${spent}</p>
-        <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
-        <br>
-        <div class="progress">
-        <div class="progress-fill" style="width: ${barPercentage}%"></div>
-        </div>
-        <pre>${percentage}%</pre>
-        <br>
-        <p id='temp_mon'>${budget.month}</p>`;
+        if(budget.amount - spent >= 0)
+        {
+            div.innerHTML = `
+            <h3 id='temp_cat'>${budget.category}</h3>
+            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
+            <p id='temp_spent'>Spent : ₹${spent}</p>
+            <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
+            <br>
+            <div class="progress">
+            <div class="progress-fill" style="width: ${barPercentage}%"></div>
+            </div>
+            <pre>${percentage}%</pre>
+            <br>
+            <p id='temp_mon'>${budget.month}</p>`;
+        }
+        else
+        {
+            div.innerHTML = `
+            <h3 id='temp_cat'>${budget.category}</h3>
+            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
+            <p id='temp_spent'>Spent : ₹${spent}</p>
+            <p id='temp_rem'>Remaining : - ₹${spent - budget.amount}</p>
+            <br>
+            <div class="progress">
+            <div class="progress-fill" style="width: ${barPercentage}%"></div>
+            </div>
+            <pre>${percentage}%</pre>
+            <br>
+            <p id='temp_mon'>${budget.month}</p>`;
+        }
         d.appendChild(div);
     })
 }

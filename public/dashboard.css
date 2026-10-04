@@ -127,7 +127,41 @@ select {
     display: inline-block;
     background-color: #3d007a;
     color: #e8ecf1;
-    width: 170px;
+    width: 210px;
     border-radius: 30px;
     margin: 10px;
+}
+#fbar {
+    background-color: #e8ecf1;
+    width: 100px;
+}
+#bbar {
+    background-color: #e8ecf1;
+    width: 100px;
+}
+.progress {
+    width: 70%;
+    height: 15px;
+    background-color: lightgray;
+    border-radius: 10px;
+    margin: 10px auto;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 10px;
+    background-color: rgb(15, 149, 15);
+}
+#temp_amt {
+    margin-left: 30px;
+    text-align: left;
+}
+#temp_spent {
+    margin-left: 30px;
+    text-align: left;
+}
+#temp_rem {
+    margin-left: 30px;
+    text-align: left;
 }

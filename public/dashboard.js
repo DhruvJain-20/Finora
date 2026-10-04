@@ -358,16 +358,55 @@ document.getElementById('b_form').addEventListener('submit',async ()=>{
 
 async function bgts()
 {
+    const tresponse = await fetch('/transactions')
+    const transactions = await tresponse.json();
     const response = await fetch('/budget');
     const budgets = await response.json();
+    let food = 0;
+    let shop = 0;
+    let transport = 0;
+    let bill = 0;
+    let entertain = 0;
+    let health = 0;
+    let other = 0;
+    transactions.forEach(t => {
+        if(t.type == 'Expense')
+        {
+            if(t.category == 'Food') food += t.amount;
+            else if(t.category == 'Shopping') shop += t.amount;
+            else if(t.category == 'Transport') transport += t.amount;
+            else if(t.category == 'Bills') bill += t.amount;
+            else if(t.category == 'Entertainment') entertain += t.amount;
+            else if(t.category == 'Healthcare') health += t.amount;
+            else if(t.category == 'Other') other += t.amount;
+        }
+    })
     let d = document.getElementById('b_temp');
     budgets.forEach(budget => {
+        let spent = 0;
         const div = document.createElement('div');
+        if(budget.category == 'Food') spent = food
+        else if(budget.category == 'Shopping') spent = shop
+        else if(budget.category == 'Transport') spent = transport
+        else if(budget.category == 'Bills') spent = bill
+        else if(budget.category == 'Entertainment')spent = entertain
+        else if(budget.category == 'Healthcare') spent = health
+        else if(budget.category == 'Other') spent = other
+        let percentage = Number((spent / budget.amount) * 100).toFixed(2);
+        let barPercentage = Math.min(percentage, 100);
         div.innerHTML = "";
         div.id = 'temp_bgts';
         div.innerHTML = `
         <h3 id='temp_cat'>${budget.category}</h3>
-        <p id='temp_amt'>${budget.amount}</p>
+        <p id='temp_amt'>Budget : ₹${budget.amount}</p>
+        <p id='temp_spent'>Spent : ₹${spent}</p>
+        <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
+        <br>
+        <div class="progress">
+        <div class="progress-fill" style="width: ${barPercentage}%"></div>
+        </div>
+        <pre>${percentage}%</pre>
+        <br>
         <p id='temp_mon'>${budget.month}</p>`;
         d.appendChild(div);
     })

@@ -95,6 +95,27 @@ app.post('/budget',async (req,res)=>{
     res.status(201).json(data);
 });
 
+app.delete('/budget/:id',async (req,res)=>{
+    const id = req.params.id;
+    const {error} = await supabase.from('budgets').delete().eq('id',id);
+    if(error)
+    {
+        return res.status(500).json({error : error.message});
+    }
+    return res.json({message : "Budget deleted successful"})
+})
+
+app.put('/budget/:id',async (req,res)=>{
+    const id = req.params.id;
+    const {category,amount,month} = req.body;
+    const {data,error} = await supabase.from('budgets').update({category,amount,month}).eq('id',id).select();
+    if(error)
+    {
+        return res.status(500).json({error : error.message});
+    }
+    return res.json(data);
+})
+
 app.listen(3000, () => {
     console.log("Finora running on port 3000");
 });

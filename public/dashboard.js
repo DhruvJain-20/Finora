@@ -1,4 +1,5 @@
 let editingId = null;
+let budgetId = null;
 
 function display_cat(food,shop,transport,bill,entertain,health,other)
 {
@@ -347,11 +348,24 @@ document.getElementById('b_form').addEventListener('submit',async ()=>{
         amount : document.getElementById('b_amt').value,
         month : document.getElementById('b_mon').value
     }
-    const response = await fetch('/budget',{
-        method : 'POST',
-        headers : {'content-type' : 'application/json'},
-        body : JSON.stringify(budget)
-    })
+    let response;
+    if(budgetId != null)
+    {
+            response = await fetch(`/budget/${budgetId}`,{
+            method : 'PUT',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify(budget)
+        });
+        budgetId = null;
+    }
+    else
+    {
+            response = await fetch('/budget',{
+            method : 'POST',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify(budget)
+        });
+    }
     const data = await response.json();
     console.log("Server response:", data);
 })
@@ -362,6 +376,8 @@ async function bgts()
     const transactions = await tresponse.json();
     const response = await fetch('/budget');
     const budgets = await response.json();
+    let tb = 0;
+    let ts = 0;
     let food = 0;
     let shop = 0;
     let transport = 0;
@@ -393,10 +409,29 @@ async function bgts()
         else if(budget.category == 'Healthcare') spent = health
         else if(budget.category == 'Other') spent = other
         let percentage = Number((spent / budget.amount) * 100).toFixed(2);
+        tb += budget.amount;
+        ts += spent;
+        let status;
+        if(percentage == 100)
+        {
+            status = 'Limit Reached';
+        }
+        else if(percentage > 100)
+        {
+            status = 'Budget Exceeded';
+        }
+        else if(percentage >= 85)
+        {
+            status = 'Approaching Limit';
+        }
+        else
+        {
+            status = 'On track';
+        }
         let barPercentage = Math.min(percentage, 100);
         div.innerHTML = "";
         div.id = 'temp_bgts';
-        if(budget.amount - spent >= 0)
+        if(budget.amount - spent >= 0 && percentage < 85)
         {
             div.innerHTML = `
             <h3 id='temp_cat'>${budget.category}</h3>
@@ -409,7 +444,30 @@ async function bgts()
             </div>
             <pre>${percentage}%</pre>
             <br>
-            <p id='temp_mon'>${budget.month}</p>`;
+            <p id='temp_mon'>${budget.month}</p>
+            <div class='status'><i class="fa-solid fa-circle-check" style="color: rgb(68, 215, 61);"></i><pre>\t${status}<pre></div>
+            <br>
+            <button class='up_b' data-id='${budget.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
+            <button class='del_b' data-id='${budget.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
+        }
+        else if(budget.amount - spent >= 0)
+        {
+            div.innerHTML = `
+            <h3 id='temp_cat'>${budget.category}</h3>
+            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
+            <p id='temp_spent'>Spent : ₹${spent}</p>
+            <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
+            <br>
+            <div class="progress">
+            <div class="progress-fill" style="width: ${barPercentage}%;background-color:rgb(255,212,59)"></div>
+            </div>
+            <pre>${percentage}%</pre>
+            <br>
+            <p id='temp_mon'>${budget.month}</p>
+            <div class='status'><i class="fa-solid fa-triangle-exclamation" style="color: rgb(255, 212, 59);"></i><pre>\t${status}<pre></div>
+            <br>
+            <button class='up_b' data-id='${budget.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
+            <button class='del_b' data-id='${budget.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
         }
         else
         {
@@ -420,13 +478,60 @@ async function bgts()
             <p id='temp_rem'>Remaining : - ₹${spent - budget.amount}</p>
             <br>
             <div class="progress">
-            <div class="progress-fill" style="width: ${barPercentage}%"></div>
+            <div class="progress-fill" style="width: ${barPercentage}%;background-color: rgb(221,73,63)"></div>
             </div>
             <pre>${percentage}%</pre>
             <br>
-            <p id='temp_mon'>${budget.month}</p>`;
+            <p id='temp_mon'>${budget.month}</p>
+            <div class='status'><i class="fa-solid fa-skull-crossbones" style="color: rgb(221, 73, 63);"></i><pre>\t${status}<pre></div>
+            <br>
+            <button class='up_b' data-id='${budget.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
+            <button class='del_b' data-id='${budget.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
         }
         d.appendChild(div);
+        const del = div.querySelector('.del_b');
+        del.addEventListener('click',async()=>{
+            const id = del.dataset.id;
+            const response = await fetch(`/budget/${id}`,{
+                method : 'DELETE'
+            });
+            const data = await response.json();
+            console.log(data);
+            window.location.reload();
+        })
+        const up = div.querySelector('.up_b');
+        up.addEventListener('click',async ()=>{
+            document.getElementById('b_cat').value = budget.category;
+            document.getElementById('b_amt').value = budget.amount;
+            document.getElementById('b_mon').value = budget.month;
+            budgetId = up.dataset.id;
+        })
     })
+    const ow = document.getElementById('overview');
+    let div1 = document.createElement('div');
+    div1.innerHTML = '';
+    div1.innerHTML = `<p>Total budget</p>
+                    <p>₹${tb}</p>`;
+    ow.appendChild(div1);
+    let div2 = document.createElement('div');
+    div2.innerHTML = '';
+    div2.innerHTML = `<p>Total spent</p>
+                    <p>₹${ts}</p>`;
+    ow.appendChild(div2);
+    let div3 = document.createElement('div');
+    if(tb-ts >= 0)
+    {
+        div3.innerHTML = '';
+        div3.innerHTML = `<p>Remaining</p>
+                          <p>₹${tb-ts}</p>`;
+        ow.appendChild(div3);
+    }
+    else
+    {
+        div3.innerHTML = '';
+        div3.innerHTML = `<p>Remaining</p>
+                          <p>-₹${ts-tb}</p>`;
+        ow.appendChild(div3);
+    }
 }
 bgts();

@@ -1,6 +1,29 @@
 let editingId = null;
 let budgetId = null;
 
+const currentMonth = new Date().toISOString().slice(0, 7);
+
+const mdate = document.getElementById('date');
+mdate.max = new Date().toISOString().slice(0,10);
+
+const month = new Date().getMonth();
+const year = new Date().getFullYear();
+let monthName;
+if(month == 0) monthName = 'January';
+else if(month == 1) monthName = 'February';
+else if(month == 2) monthName = 'March';
+else if(month == 3) monthName = 'April';
+else if(month == 4) monthName = 'May';
+else if(month == 5) monthName = 'June';
+else if(month == 6) monthName = 'July';
+else if(month == 7) monthName = 'August';
+else if(month == 8) monthName = 'September';
+else if(month == 9) monthName = 'October';
+else if(month == 10) monthName = 'November';
+else if(month == 11) monthName = 'December';
+
+const b_month = `${monthName} ${year}`;
+
 function display_cat(food,shop,transport,bill,entertain,health,other)
 {
     const cat = document.getElementById("cat");
@@ -157,6 +180,9 @@ form.addEventListener('submit',async (e)=>{
 async function loadTransactions() {
     const response = await fetch("/transactions");
     const transactions = await response.json();
+    const currentTransactions = transactions.filter(t =>
+        t.date.startsWith(currentMonth)
+    );
     let ti = 0;
     let te = 0;
     let food = 0;
@@ -166,7 +192,7 @@ async function loadTransactions() {
     let entertain = 0;
     let health = 0;
     let other = 0;
-    transactions.forEach(transaction => {
+    currentTransactions.forEach(transaction => {
         const div = document.createElement("div");
         div.classList.add('box');
         div.innerHTML = `
@@ -269,19 +295,19 @@ async function loadTransactions() {
         let sv = document.getElementById("search").value.toLowerCase().trim();
         if(tv == "All")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "Income: ";
             document.querySelector('.e').innerText = "Expense: ";
         }
         else if(tv == "Income")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "Income: ";
             document.querySelector('.e').innerText = "";
         }
         else if(tv == "Expense")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "";
             document.querySelector('.e').innerText = "Expense: ";
         }
@@ -291,25 +317,25 @@ async function loadTransactions() {
         let sv = document.getElementById("search").value.toLowerCase().trim();
         if(tv == "All")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "Income: ";
             document.querySelector('.e').innerText = "Expense: ";
         }
         else if(tv == "Income")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "Income: ";
             document.querySelector('.e').innerText = "";
         }
         else if(tv == "Expense")
         {
-            dislplay_type(transactions,tv,sv);
+            dislplay_type(currentTransactions,tv,sv);
             document.querySelector('.i').innerText = "";
             document.querySelector('.e').innerText = "Expense: ";
         }
     })
     document.getElementById("sort_btn").addEventListener('click',()=>{
-            let sortTransaction = [...transactions];
+            let sortTransaction = [...currentTransactions];
             let sort = document.getElementById('sort').value;
             if(sort == "Newest")
             {
@@ -374,8 +400,14 @@ async function bgts()
 {
     const tresponse = await fetch('/transactions')
     const transactions = await tresponse.json();
+    const currentTransactions = await transactions.filter(t => {
+        return t.date.startsWith(currentMonth);
+    })
     const response = await fetch('/budget');
     const budgets = await response.json();
+    const currentBudgets = await budgets.filter(b => {
+        return b.month == b_month;
+    })
     let tb = 0;
     let ts = 0;
     let food = 0;
@@ -385,7 +417,7 @@ async function bgts()
     let entertain = 0;
     let health = 0;
     let other = 0;
-    transactions.forEach(t => {
+    currentTransactions.forEach(t => {
         if(t.type == 'Expense')
         {
             if(t.category == 'Food') food += t.amount;
@@ -398,7 +430,7 @@ async function bgts()
         }
     })
     let d = document.getElementById('b_temp');
-    budgets.forEach(budget => {
+    currentBudgets.forEach(budget => {
         let spent = 0;
         const div = document.createElement('div');
         if(budget.category == 'Food') spent = food

@@ -178,3 +178,9 @@ select {
     width: 50px;
     background-color: rgb(225, 147, 147);
 }
+#analysis {
+    width: 230px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: rgb(195, 191, 191);
+}

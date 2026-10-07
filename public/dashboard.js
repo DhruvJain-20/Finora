@@ -567,3 +567,6 @@ async function bgts()
     }
 }
 bgts();
+document.getElementById('analysis').addEventListener('click',()=>{
+    window.location.href = '/analysis';
+})

@@ -116,6 +116,10 @@ app.put('/budget/:id',async (req,res)=>{
     return res.json(data);
 })
 
+app.get('/analysis',(req,res)=>{
+    res.render('analysis');
+})
+
 app.listen(3000, () => {
     console.log("Finora running on port 3000");
 });

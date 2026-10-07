@@ -1,0 +1,13 @@
+body {
+    background-color: #e8ecf1;
+}
+select {
+    width: 176px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #e8ecf1;
+}
+#apply {
+    background-color: rgb(195, 191, 191);
+    border-radius: 5px;
+}

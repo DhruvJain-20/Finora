@@ -11,3 +11,6 @@ select {
     background-color: rgb(195, 191, 191);
     border-radius: 5px;
 }
+pre {
+    display: block;
+}

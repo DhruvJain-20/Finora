@@ -6,6 +6,8 @@ option.value = "All";
 option.innerText = "All";
 option.selected = true;
 sel.appendChild(option);
+let expenseChart = null;
+let incomeExpenseChart = null;
 
 async function loadTransactions()
 {
@@ -79,7 +81,7 @@ async function loadAna()
     {
         eb.innerHTML = `<pre>Food          : ₹${food}(${Number((food*100)/expense).toFixed(2)}%)</pre>
                     <pre>Shopping      : ₹${shop}(${Number((shop*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Transaport    : ₹${trans}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
+                    <pre>Transport    : ₹${trans}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
                     <pre>Bills         : ₹${bill}(${Number((bill*100)/expense).toFixed(2)}%)</pre>
                     <pre>Entertainment : ₹${entertain}(${Number((entertain*100)/expense).toFixed(2)}%)</pre>
                     <pre>Healthcare    : ₹${health}(${Number((health*100)/expense).toFixed(2)}%)</pre>
@@ -95,6 +97,104 @@ async function loadAna()
                     <pre>Healthcare    : ₹0(0%)</pre>
                     <pre>Other         : ₹0(0%)</pre>`
     }
+    const ctx = document.getElementById('expenseChart');
+
+    const categoryLabels = [
+        'Food',
+        'Shopping',
+        'Transport',
+        'Bills',
+        'Entertainment',
+        'Healthcare',
+        'Other'
+    ];
+
+    const categoryData = [
+        Number(food),
+        Number(shop),
+        Number(trans),
+        Number(bill),
+        Number(entertain),
+        Number(health),
+        Number(other)
+    ];
+
+    if (expenseChart) 
+    {
+        expenseChart.destroy();
+    }
+    expenseChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: 
+        {
+            labels: categoryLabels,
+            datasets: [{
+                label: 'Expenses (₹)',
+                data: categoryData
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ₹${context.raw}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    const incomeExpenseCtx =
+    document.getElementById('incomeExpenseChart');
+
+if (incomeExpenseChart) {
+    incomeExpenseChart.destroy();
+}
+
+incomeExpenseChart = new Chart(incomeExpenseCtx, {
+    type: 'bar',
+
+    data: {
+        labels: ['Income', 'Expense'],
+
+        datasets: [{
+            label: 'Amount (₹)',
+            data: [
+                Number(income),
+                Number(expense)
+            ]
+        }]
+    },
+
+    options: {
+        responsive: true,
+
+        plugins: {
+            legend: {
+                display: false
+            },
+
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `₹${context.raw}`;
+                    }
+                }
+            }
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+    });
 }
 
 function filterTransactions(transactions,month)

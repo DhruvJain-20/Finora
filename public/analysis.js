@@ -65,33 +65,33 @@ async function loadAna()
     if(income-expense >= 0)
     {
         a.innerHTML = `
-                             <p>Total Income : ₹${income}</p
-                             <p>Total Expense : ₹${expense}</p>
-                             <p>Savings : ₹${income - expense}`;
+                             <pre>Total Income  : ₹${income}</pre>
+                             <pre>Total Expense : ₹${expense}</pre>
+                             <pre>Savings       : ₹${income - expense}</pre>`;
     }
     else
     {
         a.innerHTML = `
-                             <p>Total Income : ₹${income}</p
-                             <p>Total Expense : ₹${expense}</p>
-                             <p>Savings : - ₹${expense - income}`;
+                             <pre>Total Income  : ₹${income}</pre>
+                             <pre>Total Expense : ₹${expense}</pre>
+                             <pre>Savings       : - ₹${expense - income}</pre>`;
     }
     const eb = document.getElementById('eb');
     if(expense != 0)
     {
         eb.innerHTML = `<pre>Food          : ₹${food}(${Number((food*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Shopping      : ₹${shop}(${Number((shop*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Transport    : ₹${trans}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Bills         : ₹${bill}(${Number((bill*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Entertainment : ₹${entertain}(${Number((entertain*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Healthcare    : ₹${health}(${Number((health*100)/expense).toFixed(2)}%)</pre>
-                    <pre>Other         : ₹${other}(${Number((other*100)/expense).toFixed(2)}%)</pre>`
+                       <pre>Shopping      : ₹${shop}(${Number((shop*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Transport     : ₹${trans}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Bills         : ₹${bill}(${Number((bill*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Entertainment : ₹${entertain}(${Number((entertain*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Healthcare    : ₹${health}(${Number((health*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Other         : ₹${other}(${Number((other*100)/expense).toFixed(2)}%)</pre>`
     }
     else
     {
-        eb.innerHTML = `<pre>Food          : ₹0(0%)</pre>
+        eb.innerHTML = `<pre>Food           : ₹0(0%)</pre>
                     <pre>Shopping      : ₹0(0%)</pre>
-                    <pre>Transaport    : ₹0(0%)</pre
+                    <pre>Transport     : ₹0(0%)</pre>
                     <pre>Bills         : ₹0(0%)</pre>
                     <pre>Entertainment : ₹0(0%)</pre>
                     <pre>Healthcare    : ₹0(0%)</pre>
@@ -119,13 +119,13 @@ async function loadAna()
         Number(other)
     ];
 
-    if (expenseChart) 
+    if (expenseChart)
     {
         expenseChart.destroy();
     }
     expenseChart = new Chart(ctx, {
         type: 'doughnut',
-        data: 
+        data:
         {
             labels: categoryLabels,
             datasets: [{
@@ -135,6 +135,7 @@ async function loadAna()
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'bottom'
@@ -173,7 +174,7 @@ incomeExpenseChart = new Chart(incomeExpenseCtx, {
 
     options: {
         responsive: true,
-
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: false

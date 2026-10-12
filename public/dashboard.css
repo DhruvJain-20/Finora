@@ -1,186 +1,340 @@
-body {
-     background-color: #e8ecf1;
+
+* {
+    box-sizing: border-box;
 }
+
+:root {
+    --primary: #3d007a;
+    --background: #e8ecf1;
+    --surface: #ffffff;
+    --text: #243047;
+    --muted: #6b7280;
+    --border: #dce2e9;
+    --success: #168451;
+    --danger: #d94b4b;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+h2, h3, p {
+    color: var(--text);
+}
+
+h3 {
+    margin-top: 0;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+}
+
+/* Forms */
 #f {
     text-align: center;
 }
+
+#transaction_form,
+#b_form {
+    width: min(100%, 560px);
+    padding: 28px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgb(36 48 71 / 5%);
+}
+
+#transaction_form h3,
+#b_form h3 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
 pre {
-    display: inline;
+    display: inline-block;
+    margin: 8px 0;
+    white-space: pre-wrap;
+    font-family: Arial, sans-serif;
+    color: var(--text);
 }
-#submit_t {
-    margin-top: 50px;
-    height: 30px;
-    background-color: rgb(195, 191, 191);
-}
-input {
-    width: 175px;
-    height: 20px;
-    border-radius: 5px;
-    background-color: #e8ecf1;
-}
+
+input,
 select {
-    width: 176px;
-    height: 25px;
-    border-radius: 5px;
-    background-color: #e8ecf1;
+    max-width: 100%;
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
 }
-#transaction_form {
-    background-color: #3d007a;
-    color: #e8ecf1;
-    text-align: center;
-    padding-bottom: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    display: inline-block;
-    border-radius: 30px;
-    font-family: 'Arial';
+
+#transaction_form input:not([type="submit"]),
+#transaction_form select,
+#b_form input:not([type="submit"]),
+#b_form select {
+    width: 65%;
 }
-#income {
-    display: flex;
+
+input:focus,
+select:focus {
+    outline: 2px solid rgb(61 0 122 / 20%);
+    border-color: var(--primary);
 }
+
+#submit_t,
+#b_sub {
+    width: 100%;
+    min-height: 42px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+}
+
+/* Search, filter and sorting */
+#search {
+    width: min(320px, 100%);
+}
+
+#sb,
+#apply,
+#apply_fil,
+#sort_btn {
+    min-height: 38px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+}
+
+#apply_fil {
+    background: var(--primary);
+    color: white;
+}
+
+#apply {
+    background: var(--primary);
+    color: white;
+}
+
+#type_fil,
+#cat_fil,
+#sort {
+    width: auto;
+    min-width: 120px;
+    margin: 6px;
+}
+
+/* Income and expense sections */
+#income,
 #expense {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    align-items: stretch;
 }
-.box {
-    text-align: center;
-    display: inline-block;
-    background-color: #3d007a;
-    color: #e8ecf1;
-    width: 170px;
-    border-radius: 30px;
-    margin: 10px;
-}
+
 #c {
-    font-size: larger;
+    font-size: 20px;
     font-weight: 700;
 }
-#cat {
-    background-color: #3d007a;
-    color: #e8ecf1;
-    padding: 30px;
-    display: block;
-    border-radius: 30px;
-    width: 160px;
+
+.box {
+    min-width: 0;
+    padding: 20px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgb(36 48 71 / 5%);
+    overflow-wrap: anywhere;
 }
+
+.box h3,
+.box p {
+    background: transparent;
+    color: var(--text);
+}
+
+.box p {
+    margin: 10px 0;
+}
+
+.up,
+.del,
+.up_b,
+.del_b {
+    min-width: 40px;
+    min-height: 36px;
+    margin: 6px 5px 0 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.up,
+.up_b {
+    background: #eee7f8;
+    color: var(--primary);
+}
+
+.del,
+.del_b {
+    background: #fde8e8;
+    color: var(--danger);
+}
+
+/* Category breakdown */
+#cat {
+    width: 100%;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgb(36 48 71 / 5%);
+}
+
 .pre {
     display: block;
 }
+
 #tot {
-    font-size: larger;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 18px;
     font-weight: 700;
 }
-.up {
-    margin: 10px;
-    margin-left: 20px;
-    border-radius: 15px;
-    width: 50px;
-    background-color: rgb(195, 191, 191);
+
+/* Budgets */
+#b_temp {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
 }
-.del {
-    margin: 10px;
-    border-radius: 15px;
-    width: 50px;
-    background-color: rgb(225, 147, 147);
-}
-#cat_fil {
-    margin-bottom: 15px;
-    width: 105px;
-}
-#apply {
-    background-color: rgb(195, 191, 191);
-    border-radius: 5px;
-}
-#type_fil {
-    margin-bottom: 15px;
-    width: 105px;
-}
-#apply_fil {
-    background-color: rgb(195, 191, 191);
-    border-radius: 5px;
-}
-#search {
-    width: 300px;
-    height: 22px;
-}
-#sb {
-    background-color: rgb(195, 191, 191);
-    border-radius: 3px;
-}
-#b_form {
-    background-color: #3d007a;
-    color: #e8ecf1;
-    text-align: center;
-    padding-bottom: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    display: inline-block;
-    border-radius: 30px;
-    font-family: 'Arial';
-}
-#b_sub {
-    margin-top: 50px;
-    height: 30px;
-    background-color: rgb(195, 191, 191);
-}
+
 #temp_bgts {
-    text-align: center;
-    display: inline-block;
-    background-color: #3d007a;
-    color: #e8ecf1;
-    width: 210px;
-    border-radius: 30px;
-    margin: 10px;
+    min-width: 0;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgb(36 48 71 / 5%);
+    overflow-wrap: anywhere;
 }
-#fbar {
-    background-color: #e8ecf1;
-    width: 100px;
+
+#temp_amt,
+#temp_spent,
+#temp_rem {
+    margin: 12px 0;
+    text-align: left;
+    color: var(--text);
 }
-#bbar {
-    background-color: #e8ecf1;
-    width: 100px;
-}
+
 .progress {
-    width: 70%;
-    height: 15px;
-    background-color: lightgray;
-    border-radius: 10px;
-    margin: 10px auto;
+    width: 100%;
+    height: 10px;
+    margin: 12px 0;
     overflow: hidden;
+    background: #e8ecf1;
+    border-radius: 10px;
 }
+
 .progress-fill {
     height: 100%;
     width: 0;
+    background: var(--success);
     border-radius: 10px;
-    background-color: rgb(15, 149, 15);
 }
-#temp_amt {
-    margin-left: 30px;
-    text-align: left;
+
+#fbar,
+#bbar {
+    background: var(--background);
+    width: 100px;
 }
-#temp_spent {
-    margin-left: 30px;
-    text-align: left;
+
+#overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
-#temp_rem {
-    margin-left: 30px;
-    text-align: left;
+
+#overview > * {
+    flex: 1 1 180px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
 }
-.up_b {
-    margin: 10px;
-    margin-left: 20px;
-    border-radius: 15px;
-    width: 50px;
-    background-color: rgb(195, 191, 191);
-}
-.del_b {
-    margin: 10px;
-    border-radius: 15px;
-    width: 50px;
-    background-color: rgb(225, 147, 147);
-}
+
+/* Analysis button */
 #analysis {
-    width: 230px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: rgb(195, 191, 191);
+    width: 200px;
+    min-height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+}
+
+button {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+button:hover {
+    box-shadow: 0 3px 8px rgb(36 48 71 / 12%);
+}
+
+#analysis:hover,
+#apply:hover,
+#submit_t:hover,
+#b_sub:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 14px;
+    }
+
+    #transaction_form,
+    #b_form {
+        padding: 18px;
+    }
+
+    #transaction_form input:not([type="submit"]),
+    #transaction_form select,
+    #b_form input:not([type="submit"]),
+    #b_form select {
+        width: 100%;
+    }
+
+    #transaction_form pre,
+    #b_form pre {
+        display: block;
+    }
+
+    #income,
+    #expense,
+    #b_temp {
+        grid-template-columns: 1fr;
+    }
 }

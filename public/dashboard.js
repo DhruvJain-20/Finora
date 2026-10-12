@@ -31,13 +31,13 @@ function display_cat(food,shop,transport,bill,entertain,health,other)
     if(cf == 'All')
     {
         cat.innerHTML = `
-        <pre class='pre'>Food          : ₹ ${food}</pre>
-        <pre class='pre'>Shopping      : ₹ ${shop}</pre>
-        <pre class='pre'>Transport     : ₹ ${transport}</pre>
-        <pre class='pre'>Bills         : ₹ ${bill}</pre>
+        <pre class='pre'>Food               : ₹ ${food}</pre>
+        <pre class='pre'>Shopping        : ₹ ${shop}</pre>
+        <pre class='pre'>Transport        : ₹ ${transport}</pre>
+        <pre class='pre'>Bills                 : ₹ ${bill}</pre>
         <pre class='pre'>Entertainment : ₹ ${entertain}</pre>
-        <pre class='pre'>Healthcare    : ₹ ${health}</pre>
-        <pre class='pre'>Other         : ₹ ${other}</pre>`;
+        <pre class='pre'>Healthcare      : ₹ ${health}</pre>
+        <pre class='pre'>Other              : ₹ ${other}</pre>`;
     }
     else if(cf == 'Food')
     {
@@ -152,7 +152,7 @@ form.addEventListener('submit',async (e)=>{
         date : document.getElementById("date").value,
         payment_method : document.getElementById("payment").value,
     };
-    if (editingId) 
+    if (editingId)
     {
         response = await fetch(`/transactions/${editingId}`, {
             method: "PUT",
@@ -162,8 +162,8 @@ form.addEventListener('submit',async (e)=>{
             body: JSON.stringify(transaction)
         });
         editingId = null;
-    } 
-    else 
+    }
+    else
     {
         response = await fetch("/transactions", {
             method: "POST",
@@ -192,6 +192,8 @@ async function loadTransactions() {
     let entertain = 0;
     let health = 0;
     let other = 0;
+    let iflag = 0;
+    let eflag = 0;
     currentTransactions.forEach(transaction => {
         const div = document.createElement("div");
         div.classList.add('box');
@@ -209,11 +211,13 @@ async function loadTransactions() {
             const transactionsList = document.getElementById("income");
             transactionsList.appendChild(div);
             ti = ti + transaction.amount;
+            iflag = 1;
         }
         else if(transaction.type == 'Expense')
         {
             const transactionsList = document.getElementById("expense");
             transactionsList.appendChild(div);
+            eflag = 1;
             te = te + transaction.amount;
             if(transaction.category == 'Food')
             {
@@ -271,20 +275,32 @@ async function loadTransactions() {
             document.getElementById("payment").value = transaction.payment_method;
         })
     });
+    if(iflag == 0)
+    {
+        const pi = document.createElement('p');
+        pi.innerText = "No Income results found";
+        document.getElementById("income").appendChild(pi);
+    }
+    if(eflag == 0)
+    {
+        const pe = document.createElement('p');
+        pe.innerText = "No Expense results found";
+        document.getElementById("expense").appendChild(pe);
+    }
     const calc = document.getElementById("tot");
     if((ti-te)>=0)
     {
         calc.innerHTML = `
-        <p>Total Income : ₹ ${ti}</p>
-        <p>Total Expenses : ₹ ${te}</p>
-        <p>Balance : ₹ ${ti - te}</p>`;
+        <pre style="display:block;">Total Income     : ₹ ${ti}</pre>
+        <pre style="display:block;">Total Expenses : ₹ ${te}</pre>
+        <pre style="display:block;">Balance             : ₹ ${ti - te}</pre>`;
     }
     else
     {
         calc.innerHTML = `
-        <p>Total Income : ₹ ${ti}</p>
-        <p>Total Expenses : ₹ ${te}</p>
-        <p>Balance : - ₹ ${te - ti}</p>`;
+        <pre style="display:block;">Total Income     : ₹ ${ti}</pre>
+        <pre style="display:block;">Total Expenses : ₹ ${te}</pre>
+        <pre style="display:block;">Balance             : - ₹ ${te - ti}</pre>`;
     }
     display_cat(food,shop,transport,bill,entertain,health,other);
     document.getElementById('apply').addEventListener('click',()=>{

@@ -1,22 +1,73 @@
-body {
-    background-color: #e8ecf1;
+
+* {
+    box-sizing: border-box;
 }
+
+body {
+    margin: 0;
+    padding: 24px;
+    background-color: #e8ecf1;
+    color: #243047;
+    font-family: Arial, sans-serif;
+}
+
 select {
     width: 176px;
-    height: 25px;
-    border-radius: 5px;
-    background-color: #e8ecf1;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid #dce2e9;
+    border-radius: 8px;
+    background-color: white;
 }
+
 #apply {
-    background-color: rgb(195, 191, 191);
-    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3d007a;
+    color: white;
+    cursor: pointer;
 }
-pre {
-    display: block;
+
+#ana,
+#eb {
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: white;
 }
+
+#eb pre {
+    margin: 10px 0;
+    white-space: pre-wrap;
+}
+
 .chart-container {
+    position: relative;
     width: 100%;
     max-width: 500px;
-    margin: 30px auto;
-    padding: 20px;
+    height: 300px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid #dce2e9;
+    border-radius: 14px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgb(36 48 71 / 5%);
 }
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 14px;
+    }
+
+    .chart-container {
+        height: 250px;
+        padding: 10px;
+    }
+}
+

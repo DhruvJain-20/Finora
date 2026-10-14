@@ -217,3 +217,100 @@ function filterTransactions(transactions,month)
 document.getElementById('apply').addEventListener('click',()=>{
     loadAna();
 })
+
+async function monthlyTrends()
+{
+    const response = await fetch('/transactions');
+    const transactions = await response.json();
+    const monthlyData = {};
+    transactions.forEach(transaction => {
+        const date = new Date(transaction.date);
+        const monthYear = `${date.getMonth() + 1}-${date.getFullYear()}`;
+        if (!monthlyData[monthYear])
+        {
+            monthlyData[monthYear] = { income: 0, expense: 0 };
+        }
+        if (transaction.type === 'Income')
+        {
+            monthlyData[monthYear].income += Number(transaction.amount);
+        }
+        else if (transaction.type === 'Expense')
+        {
+            monthlyData[monthYear].expense += Number(transaction.amount);
+        }
+    });
+    return monthlyData;
+}
+
+let monthlyTrendChart = null;
+
+async function loadMonthlyTrends()
+{
+    const monthlyData = await monthlyTrends();
+    const monthKeys = Object.keys(monthlyData).sort((a, b) => {
+        const [monthA, yearA] = a.split('-').map(Number);
+        const [monthB, yearB] = b.split('-').map(Number);
+        return new Date(yearA, monthA - 1) - new Date(yearB, monthB - 1);
+    });
+    const labels = monthKeys.map(label => {
+        const [month, year] = label.split('-').map(Number);
+        return new Date(year, month - 1).toLocaleDateString('en-IN', {
+            month: 'short',
+            year: 'numeric'
+        });
+    });
+    const incomeData = monthKeys.map(
+        key => monthlyData[key].income
+    );
+    const expenseData = monthKeys.map(
+        key => monthlyData[key].expense
+    );
+    const ctx = document.getElementById('monthlyTrendChart');
+    if (monthlyTrendChart)
+    {
+        monthlyTrendChart.destroy();
+    }
+    monthlyTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Income (₹)',
+                    data: incomeData,
+                    borderColor: 'green',
+                    fill: false
+                },
+                {
+                    label: 'Expense (₹)',
+                    data: expenseData,
+                    borderColor: 'red',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ₹${context.raw}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+loadMonthlyTrends();

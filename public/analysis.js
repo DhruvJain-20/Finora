@@ -65,27 +65,27 @@ async function loadAna()
     if(income-expense >= 0)
     {
         a.innerHTML = `
-                             <pre>Total Income  : ₹${income}</pre>
-                             <pre>Total Expense : ₹${expense}</pre>
-                             <pre>Savings       : ₹${income - expense}</pre>`;
+                             <pre>Total Income  : ₹${income.toLocaleString('en-IN')}</pre>
+                             <pre>Total Expense : ₹${expense.toLocaleString('en-IN')}</pre>
+                             <pre>Savings       : ₹${(income - expense).toLocaleString('en-IN')}</pre>`;
     }
     else
     {
         a.innerHTML = `
-                             <pre>Total Income  : ₹${income}</pre>
-                             <pre>Total Expense : ₹${expense}</pre>
-                             <pre>Savings       : - ₹${expense - income}</pre>`;
+                             <pre>Total Income  : ₹${income.toLocaleString('en-IN')}</pre>
+                             <pre>Total Expense : ₹${expense.toLocaleString('en-IN')}</pre>
+                             <pre>Savings       : - ₹${(expense - income).toLocaleString('en-IN')}</pre>`;
     }
     const eb = document.getElementById('eb');
     if(expense != 0)
     {
-        eb.innerHTML = `<pre>Food          : ₹${food}(${Number((food*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Shopping      : ₹${shop}(${Number((shop*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Transport     : ₹${trans}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Bills         : ₹${bill}(${Number((bill*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Entertainment : ₹${entertain}(${Number((entertain*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Healthcare    : ₹${health}(${Number((health*100)/expense).toFixed(2)}%)</pre>
-                       <pre>Other         : ₹${other}(${Number((other*100)/expense).toFixed(2)}%)</pre>`
+        eb.innerHTML = `<pre>Food          : ₹${food.toLocaleString('en-IN')}(${Number((food*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Shopping      : ₹${shop.toLocaleString('en-IN')}(${Number((shop*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Transport     : ₹${trans.toLocaleString('en-IN')}(${Number((trans*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Bills         : ₹${bill.toLocaleString('en-IN')}(${Number((bill*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Entertainment : ₹${entertain.toLocaleString('en-IN')}(${Number((entertain*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Healthcare    : ₹${health.toLocaleString('en-IN')}(${Number((health*100)/expense).toFixed(2)}%)</pre>
+                       <pre>Other         : ₹${other.toLocaleString('en-IN')}(${Number((other*100)/expense).toFixed(2)}%)</pre>`
     }
     else
     {
@@ -314,3 +314,7 @@ async function loadMonthlyTrends()
 }
 
 loadMonthlyTrends();
+
+document.getElementById('savings').addEventListener('click',()=>{
+    window.location.href = '/savings';
+})

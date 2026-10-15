@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Goals</title>
+    <link rel="stylesheet" href="savings.css">
+</head>
+<body>
+    <form id="savings_form">
+        <h3>Set Your Savings Goal</h3>
+        <br>
+        <pre>Goal Name:     </pre>
+        <input type="text" name="goal_name" placeholder="Enter goal name" id="goal_name" required>
+        <br>
+        <br>
+        <pre>Target Amount: </pre>
+        <input type="number" name="target_amount" placeholder="Enter target amount" id="target_amount" min="1" required>
+        <br>
+        <br>
+        <pre>Deadline:      </pre>
+        <input type="date" name="target_date" id="target_date" required>
+        <br>
+        <br>
+        <input type="submit" value="Set Goal">
+    </form>
+    <br>
+    <hr>
+    <h3>Current Goals : </h3>
+    <div id="current_goals"></div>
+    <br>
+    <script src="savings.js"></script>
+</body>
+</html>

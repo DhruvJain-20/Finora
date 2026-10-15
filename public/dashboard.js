@@ -31,41 +31,41 @@ function display_cat(food,shop,transport,bill,entertain,health,other)
     if(cf == 'All')
     {
         cat.innerHTML = `
-        <pre class='pre'>Food               : ₹ ${food}</pre>
-        <pre class='pre'>Shopping        : ₹ ${shop}</pre>
-        <pre class='pre'>Transport        : ₹ ${transport}</pre>
-        <pre class='pre'>Bills                 : ₹ ${bill}</pre>
-        <pre class='pre'>Entertainment : ₹ ${entertain}</pre>
-        <pre class='pre'>Healthcare      : ₹ ${health}</pre>
-        <pre class='pre'>Other              : ₹ ${other}</pre>`;
+        <pre class='pre'>Food               : ₹ ${food.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Shopping        : ₹ ${shop.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Transport        : ₹ ${transport.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Bills                 : ₹ ${bill.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Entertainment : ₹ ${entertain.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Healthcare      : ₹ ${health.toLocaleString('en-IN')}</pre>
+        <pre class='pre'>Other              : ₹ ${other.toLocaleString('en-IN')}</pre>`;
     }
     else if(cf == 'Food')
     {
-        cat.innerHTML = `<pre class='pre'>Food          : ₹ ${food}</pre>`;
+        cat.innerHTML = `<pre class='pre'>Food          : ₹ ${food.toLocaleString('en-IN')}</pre>`;
     }
     else if(cf == 'Shopping')
     {
-        cat.innerHTML = `<pre class='pre'>Shopping      : ₹ ${shop}</pre>`
+        cat.innerHTML = `<pre class='pre'>Shopping      : ₹ ${shop.toLocaleString('en-IN')}</pre>`
     }
     else if(cf == 'Transport')
     {
-        cat.innerHTML = `<pre class='pre'>Transport     : ₹ ${transport}</pre>`
+        cat.innerHTML = `<pre class='pre'>Transport     : ₹ ${transport.toLocaleString('en-IN')}</pre>`
     }
     else if(cf == 'Bills')
     {
-        cat.innerHTML = `<pre class='pre'>Bills         : ₹ ${bill}</pre>`
+        cat.innerHTML = `<pre class='pre'>Bills         : ₹ ${bill.toLocaleString('en-IN')}</pre>`
     }
     else if(cf == 'Entertainment')
     {
-        cat.innerHTML = `<pre class='pre'>Entertainment : ₹ ${entertain}</pre>`
+        cat.innerHTML = `<pre class='pre'>Entertainment : ₹ ${entertain.toLocaleString('en-IN')}</pre>`
     }
     else if(cf == 'Healthcare')
     {
-        cat.innerHTML = `<pre class='pre'>Healthcare    : ₹ ${health}</pre>`
+        cat.innerHTML = `<pre class='pre'>Healthcare    : ₹ ${health.toLocaleString('en-IN')}</pre>`
     }
     else if(cf == 'Other')
     {
-        cat.innerHTML = `<pre class='pre'>Other         : ₹ ${other}</pre>`
+        cat.innerHTML = `<pre class='pre'>Other         : ₹ ${other.toLocaleString('en-IN')}</pre>`
     }
 }
 
@@ -80,10 +80,10 @@ function dislplay_type(transactions,tv,sv)
         div.classList.add('box');
         div.innerHTML = `
             <h3>${transaction.category}</h3>
-            <p>₹${transaction.amount}</p>
+            <p>₹${transaction.amount.toLocaleString('en-IN')}</p>
             <p>${transaction.description}</p>
             <p>${transaction.merchant}</p>
-            <p>${transaction.date}</p>
+            <p>${transaction.date.split('-').reverse().join(' / ')}</p>
             <p>${transaction.payment_method}</p>
             <button class='up' data-id='${transaction.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
             <button class='del' data-id='${transaction.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
@@ -199,10 +199,10 @@ async function loadTransactions() {
         div.classList.add('box');
         div.innerHTML = `
             <h3>${transaction.category}</h3>
-            <p>₹${transaction.amount}</p>
+            <p>₹${transaction.amount.toLocaleString('en-IN')}</p>
             <p>${transaction.description}</p>
             <p>${transaction.merchant}</p>
-            <p>${transaction.date}</p>
+            <p>${transaction.date.split('-').reverse().join(' / ')}</p>
             <p>${transaction.payment_method}</p>
             <button class='up' data-id='${transaction.id}'><i class="fa-solid fa-pen" style="color: rgb(0, 0, 0);"></i></button>
             <button class='del' data-id='${transaction.id}'><i class="fa-solid fa-trash-can" style="color: rgb(230, 71, 71);"></i></button>`;
@@ -291,16 +291,16 @@ async function loadTransactions() {
     if((ti-te)>=0)
     {
         calc.innerHTML = `
-        <pre style="display:block;">Total Income     : ₹ ${ti}</pre>
-        <pre style="display:block;">Total Expenses : ₹ ${te}</pre>
-        <pre style="display:block;">Balance             : ₹ ${ti - te}</pre>`;
+        <pre style="display:block;">Total Income     : ₹ ${ti.toLocaleString('en-IN')}</pre>
+        <pre style="display:block;">Total Expenses : ₹ ${te.toLocaleString('en-IN')}</pre>
+        <pre style="display:block;">Balance             : ₹ ${ (ti - te).toLocaleString('en-IN') }</pre>`;
     }
     else
     {
         calc.innerHTML = `
-        <pre style="display:block;">Total Income     : ₹ ${ti}</pre>
-        <pre style="display:block;">Total Expenses : ₹ ${te}</pre>
-        <pre style="display:block;">Balance             : - ₹ ${te - ti}</pre>`;
+        <pre style="display:block;">Total Income     : ₹ ${ti.toLocaleString('en-IN')}</pre>
+        <pre style="display:block;">Total Expenses : ₹ ${te.toLocaleString('en-IN')}</pre>
+        <pre style="display:block;">Balance             : - ₹ ${ (te - ti).toLocaleString('en-IN') }</pre>`;
     }
     display_cat(food,shop,transport,bill,entertain,health,other);
     document.getElementById('apply').addEventListener('click',()=>{
@@ -483,9 +483,9 @@ async function bgts()
         {
             div.innerHTML = `
             <h3 id='temp_cat'>${budget.category}</h3>
-            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
-            <p id='temp_spent'>Spent : ₹${spent}</p>
-            <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
+            <p id='temp_amt'>Budget : ₹${budget.amount.toLocaleString('en-IN')}</p>
+            <p id='temp_spent'>Spent : ₹${spent.toLocaleString('en-IN')}</p>
+            <p id='temp_rem'>Remaining : ₹${(budget.amount - spent).toLocaleString('en-IN')}</p>
             <br>
             <div class="progress">
             <div class="progress-fill" style="width: ${barPercentage}%"></div>
@@ -502,9 +502,9 @@ async function bgts()
         {
             div.innerHTML = `
             <h3 id='temp_cat'>${budget.category}</h3>
-            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
-            <p id='temp_spent'>Spent : ₹${spent}</p>
-            <p id='temp_rem'>Remaining : ₹${budget.amount - spent}</p>
+            <p id='temp_amt'>Budget : ₹${budget.amount.toLocaleString('en-IN')}</p>
+            <p id='temp_spent'>Spent : ₹${spent.toLocaleString('en-IN')}</p>
+            <p id='temp_rem'>Remaining : ₹${(budget.amount - spent).toLocaleString('en-IN')}</p>
             <br>
             <div class="progress">
             <div class="progress-fill" style="width: ${barPercentage}%;background-color:rgb(255,212,59)"></div>
@@ -521,9 +521,9 @@ async function bgts()
         {
             div.innerHTML = `
             <h3 id='temp_cat'>${budget.category}</h3>
-            <p id='temp_amt'>Budget : ₹${budget.amount}</p>
-            <p id='temp_spent'>Spent : ₹${spent}</p>
-            <p id='temp_rem'>Remaining : - ₹${spent - budget.amount}</p>
+            <p id='temp_amt'>Budget : ₹${budget.amount.toLocaleString('en-IN')}</p>
+            <p id='temp_spent'>Spent : ₹${spent.toLocaleString('en-IN')}</p>
+            <p id='temp_rem'>Remaining : - ₹${(spent - budget.amount).toLocaleString('en-IN')}</p>
             <br>
             <div class="progress">
             <div class="progress-fill" style="width: ${barPercentage}%;background-color: rgb(221,73,63)"></div>
@@ -559,26 +559,26 @@ async function bgts()
     let div1 = document.createElement('div');
     div1.innerHTML = '';
     div1.innerHTML = `<p>Total budget</p>
-                    <p>₹${tb}</p>`;
+                    <p>₹${tb.toLocaleString('en-IN')}</p>`;
     ow.appendChild(div1);
     let div2 = document.createElement('div');
     div2.innerHTML = '';
     div2.innerHTML = `<p>Total spent</p>
-                    <p>₹${ts}</p>`;
+                    <p>₹${ts.toLocaleString('en-IN')}</p>`;
     ow.appendChild(div2);
     let div3 = document.createElement('div');
     if(tb-ts >= 0)
     {
         div3.innerHTML = '';
         div3.innerHTML = `<p>Remaining</p>
-                          <p>₹${tb-ts}</p>`;
+                          <p>₹${(tb-ts).toLocaleString('en-IN')}</p>`;
         ow.appendChild(div3);
     }
     else
     {
         div3.innerHTML = '';
         div3.innerHTML = `<p>Remaining</p>
-                          <p>-₹${ts-tb}</p>`;
+                          <p>-₹${(ts-tb).toLocaleString('en-IN')}</p>`;
         ow.appendChild(div3);
     }
 }

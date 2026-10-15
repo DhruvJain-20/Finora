@@ -120,6 +120,64 @@ app.get('/analysis',(req,res)=>{
     res.render('analysis');
 })
 
+app.get('/savings-goals',async (req,res)=>{
+    const {data,error} = await supabase.from('savings_goals').select('*');
+    if(error)
+    {
+        return res.status(500).json({error : error.message});
+    }
+    return res.json(data);
+})
+
+app.post('/savings-goals',async (req,res)=>{
+    const {goal_name,target_amount,target_date} = req.body;
+    const {data,error} = await supabase.from('savings_goals').insert([
+        {
+            goal_name,
+            target_amount,
+            target_date
+        }
+    ]).select()
+    if(error)
+    {
+        return res.status(500).json({error : error.message});
+    }
+    return res.status(201).json(data);
+})
+
+
+app.put('/savings-goals/:id/saved', async (req, res) => {
+    const { id } = req.params;
+    const { saved_amount } = req.body;
+    if(saved_amount === undefined || saved_amount === null || !Number.isFinite(Number(saved_amount)) || Number((saved_amount) < 0))
+    {
+        return res.status(400).json({
+            error: 'Saved amount must be a non-negative number.'
+        });
+    }
+    const { data, error } = await supabase
+        .from('savings_goals')
+        .update({ saved_amount: Number(saved_amount) })
+        .eq('id', id)
+        .select()
+        .single();
+    if (error)
+    {
+        return res.status(500).json({ error: error.message });
+    }
+    if (!data)
+    {
+        return res.status(404).json({
+            error: 'Savings goal not found.'
+        });
+    }
+    return res.json(data);
+});
+
+app.get('/savings',(req,res)=>{
+    res.render('savings');
+})
+
 app.listen(3000, () => {
     console.log("Finora running on port 3000");
 });

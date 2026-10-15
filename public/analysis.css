@@ -11,6 +11,13 @@ body {
     font-family: Arial, sans-serif;
 }
 
+hr {
+    color: #dce2e9;
+    background-color: #dce2e9;
+    border: none;
+    height: 1px;
+}
+
 select {
     width: 176px;
     height: 38px;
@@ -69,5 +76,14 @@ select {
         height: 250px;
         padding: 10px;
     }
+}
+
+#savings {
+    margin: 20px 0;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: #3d007a;
+    color: white;
+    text-align: center;
 }
 

@@ -338,3 +338,81 @@ button:hover {
         grid-template-columns: 1fr;
     }
 }
+
+
+#transaction_form,
+#b_form {
+    box-sizing: border-box;
+    width: min(100% - 32px, 760px);
+    margin: 24px auto;
+    padding: 28px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+#transaction_form label,
+#b_form label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#transaction_form input,
+#transaction_form select,
+#b_form input,
+#b_form select {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px;
+}
+
+#transaction_form button,
+#b_form button,
+#transaction_form input[type="submit"],
+#b_form input[type="submit"] {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    #transaction_form,
+    #b_form {
+        padding: 20px;
+    }
+}
+
+.up_b,
+.del_b {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.up_b {
+    background: #eee5fa;
+    color: #3d007a;
+}
+
+.del_b {
+    background: #ffe7e7;
+    color: #dc2626;
+}
+
+.up_b:hover {
+    background: #3d007a;
+    color: white;
+}
+
+.del_b:hover {
+    background: #dc2626;
+    color: white;
+}

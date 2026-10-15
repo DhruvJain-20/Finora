@@ -13,11 +13,19 @@ app.use(express.static('public'))
 
 app.get('/',(req,res)=>{
     res.render('index')
-})
+});
 
-app.get('/dashboard',(req,res)=>{
-    res.render('dashboard')
-})
+app.get('/dashboard', (req, res) => {
+    res.redirect('/transactions-page');
+});
+
+app.get('/transactions-page', (req, res) => {
+    res.render('transactions');
+});
+
+app.get('/budgets-page', (req, res) => {
+    res.render('budgets');
+});
 
 app.get('/transactions',async (req,res)=>{
     const {data,error} = await supabase.from('transactions').select('*');

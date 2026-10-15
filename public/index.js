@@ -1,4 +1,6 @@
-b1 = document.querySelector('#start');
-b1.addEventListener('click',(e)=>{
-    window.location.href = '/dashboard'
-})
+
+const b1 = document.querySelector('#start');
+
+b1.addEventListener('click', () => {
+    window.location.href = '/transactions-page';
+});

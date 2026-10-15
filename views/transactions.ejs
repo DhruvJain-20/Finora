@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | Finora</title>
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h2>Transactions</h2>
+
+    <div id="f">
+        <form id="transaction_form">
+            <h3>Add Transaction</h3>
+
+            <label for="amt">Amount:</label>
+            <input type="number" name="amount" id="amt"
+                   placeholder="Enter amount" min="1" required>
+
+            <label for="type">Type:</label>
+            <select id="type" name="type" required>
+                <option value="" disabled selected>Select Type</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Food">Food</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Transport">Transport</option>
+                <option value="Bills">Bills</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description"
+                   placeholder="Enter description" required>
+
+            <label for="merchant">Merchant:</label>
+            <input type="text" name="merchant" id="merchant"
+                   placeholder="Enter merchant name" required>
+
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+
+            <label for="payment">Payment Method:</label>
+            <select id="payment" name="payment_method" required>
+                <option value="" disabled selected>Select payment method</option>
+                <option value="UPI">UPI</option>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Netbanking">Netbanking</option>
+                <option value="Cash">Cash</option>
+            </select>
+
+            <input type="submit" id="submit_t" value="Add Transaction">
+        </form>
+    </div>
+
+    <hr>
+
+    <h3>Search and Filter</h3>
+    <div>
+        <button id="sb" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <input id="search" type="search" placeholder="Search transactions">
+    </div>
+
+    <label for="type_fil">Filter by type:</label>
+    <select id="type_fil">
+        <option>All</option>
+        <option>Income</option>
+        <option>Expense</option>
+    </select>
+    <button id="apply_fil" type="button">Apply</button>
+
+    <div>
+        <button id="sort_btn" type="button">
+            <i class="fa-solid fa-sort"></i>
+        </button>
+        <select id="sort">
+            <option value="" disabled selected>Sort By</option>
+            <option value="Newest">Newest</option>
+            <option value="Oldest">Oldest</option>
+            <option value="Highest">Highest Amount</option>
+            <option value="Lowest">Lowest Amount</option>
+        </select>
+    </div>
+
+    <h3>Income</h3>
+    <div id="income"></div>
+
+    <h3>Expenses</h3>
+    <div id="expense"></div>
+
+    <hr>
+    <h3>Total Expenses by Category</h3>
+
+    <label for="cat_fil">Filter by category:</label>
+    <select id="cat_fil">
+        <option>All</option>
+        <option>Food</option>
+        <option>Shopping</option>
+        <option>Transport</option>
+        <option>Bills</option>
+        <option>Entertainment</option>
+        <option>Healthcare</option>
+        <option>Other</option>
+    </select>
+    <button id="apply" type="button">Apply</button>
+
+    <div id="cat"></div>
+
+    <hr>
+    <div id="tot"></div>
+
+    <script src="/transactions.js"></script>
+</body>
+</html>

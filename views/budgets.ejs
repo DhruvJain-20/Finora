@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgets | Finora</title>
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h2>Budgets</h2>
+
+    <div id="f">
+        <form id="b_form">
+            <h3>Set Budget</h3>
+
+            <label for="b_cat">Category:</label>
+            <select id="b_cat" name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Food">Food</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Transport">Transport</option>
+                <option value="Bills">Bills</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="b_amt">Amount:</label>
+            <input type="number" min="1" required
+                   id="b_amt" name="amount" placeholder="Enter amount">
+
+            <label for="b_mon">Month:</label>
+            <input type="text" name="month" id="b_mon"
+                   placeholder="Enter month" required>
+
+            <input type="submit" id="b_sub" value="Add Budget">
+        </form>
+    </div>
+
+    <hr>
+
+    <h3>Your Budgets</h3>
+    <div id="b_temp"></div>
+
+    <hr>
+
+    <h3 style="text-align:center;">Budget Overview</h3>
+    <div id="overview"
+         style="display:flex; justify-content:space-around; flex-wrap:wrap;">
+    </div>
+
+    <script src="/budgets.js"></script>
+</body>
+</html>

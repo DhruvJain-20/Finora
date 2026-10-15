@@ -130,7 +130,12 @@ async function loadBudgets() {
 
         const card = document.createElement("div");
         card.id = "temp_bgts";
-
+        const statusIcon =
+percentage >= 100
+? '<i class="fa-solid fa-skull-crossbones" style="color: rgb(221, 73, 63);"></i>'
+: percentage >= 85
+? '<i class="fa-solid fa-triangle-exclamation" style="color: rgb(255, 212, 59)"></i>'
+: '<i class="fa-solid fa-circle-check" style="color: rgb(68, 215, 61)"></i>';
         card.innerHTML = `
             <h3>${budget.category}</h3>
             <p>Budget: ₹${amount.toLocaleString("en-IN")}</p>
@@ -138,16 +143,19 @@ async function loadBudgets() {
             <p>Remaining: ${remaining < 0 ? "- " : ""}₹${Math.abs(remaining).toLocaleString("en-IN")}</p>
 
             <div class="progress">
-                <div class="progress-fill"
-                     style="width:${barPercentage}%; ${
-                         percentage >= 100
-                             ? "background-color:rgb(221,73,63)"
-                             : percentage >= 85
-                                 ? "background-color:rgb(255,212,59)"
-                                 : ""
-                     }">
-                </div>
-            </div>
+        <div class="progress-fill"
+             style="width: ${barPercentage}%; ${
+                 percentage >= 100
+                     ? "background-color: rgb(221,73,63)"
+                     : percentage >= 85
+                         ? "background-color: rgb(255,212,59)"
+                         : ""
+             }">
+        </div>
+    </div>
+    <span class="progress-status">
+        ${statusIcon}
+    </span>
 
             <p>${percentage.toFixed(2)}%</p>
             <p>${budget.month}</p>

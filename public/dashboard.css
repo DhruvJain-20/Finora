@@ -345,8 +345,9 @@ button:hover {
     box-sizing: border-box;
     width: min(100% - 32px, 760px);
     margin: 24px auto;
-    padding: 28px;
-    background: white;
+    padding: 24px 28px;
+    background: #ffffff;
+    color: #000000;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
@@ -354,34 +355,72 @@ button:hover {
 #transaction_form label,
 #b_form label {
     display: block;
-    margin: 0 0 8px;
+    margin: 12px 0 6px;
     font-size: 15px;
     font-weight: 600;
 }
 
-#transaction_form input,
+/* Equal width and height for inputs and selects */
+#transaction_form input:not([type="submit"]),
 #transaction_form select,
-#b_form input,
+#b_form input:not([type="submit"]),
 #b_form select {
     box-sizing: border-box;
     display: block;
     width: 100%;
     min-width: 0;
-    margin: 0 0 16px;
+    height: 44px;
+    margin: 0 0 14px;
+    padding: 9px 12px;
+    border: 1px solid #d5c8e8;
+    border-radius: 8px;
+    background: #f8f7fb;
+    color: #29213a;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
 }
 
+#transaction_form input:focus,
+#transaction_form select:focus,
+#b_form input:focus,
+#b_form select:focus {
+    border-color: #3d007a;
+    box-shadow: 0 0 0 2px rgba(61, 0, 122, 0.1);
+}
+
+/* Submit buttons */
 #transaction_form button,
 #b_form button,
 #transaction_form input[type="submit"],
 #b_form input[type="submit"] {
     box-sizing: border-box;
+    display: block;
     width: 100%;
-    margin-top: 8px;
+    height: 44px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #3d007a;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#transaction_form button:hover,
+#b_form button:hover,
+#transaction_form input[type="submit"]:hover,
+#b_form input[type="submit"]:hover {
+    background: #5200a3;
 }
 
 @media (max-width: 600px) {
     #transaction_form,
     #b_form {
+        width: calc(100% - 24px);
         padding: 20px;
     }
 }

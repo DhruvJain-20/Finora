@@ -11,6 +11,8 @@ app.use(express.urlencoded({extended : true}))
 app.set('view engine','ejs')
 app.use(express.static('public'))
 
+const { generateFinancialInsights } = require('./gemini');
+
 app.get('/',(req,res)=>{
     res.render('index')
 });
@@ -185,6 +187,78 @@ app.put('/savings-goals/:id/saved', async (req, res) => {
 app.get('/savings',(req,res)=>{
     res.render('savings');
 })
+
+app.get('/ai-insights', (req, res) => {
+    res.render('ai-insights');
+});
+
+app.post('/ai-insights/test', async (req, res) => {
+    try {
+        const currentMonth = new Date().toISOString().slice(0, 7);
+        const { data: transactions, error: transactionError } =
+            await supabase
+                .from('transactions')
+                .select('*')
+                .gte('date', `${currentMonth}-01`)
+                .lt(
+                    'date',
+                    new Date(
+                        new Date().getFullYear(),
+                        new Date().getMonth() + 1,
+                        1
+                    ).toISOString().slice(0, 10)
+                );
+        if (transactionError) {
+            throw transactionError;
+        }
+        const { data: budgets, error: budgetError } = await supabase
+            .from('budgets')
+            .select('*')
+            .eq(
+                'month',
+                new Date().toLocaleString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                })
+            );
+        if (budgetError) {
+            throw budgetError;
+        }
+        const totalIncome = transactions
+            .filter(t => t.type === 'Income')
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+        const totalExpenses = transactions
+            .filter(t => t.type === 'Expense')
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+        const categoryExpenses = {};
+        transactions
+            .filter(t => t.type === 'Expense')
+            .forEach(t => {
+                categoryExpenses[t.category] =
+                    (categoryExpenses[t.category] || 0) +
+                    Number(t.amount);
+            });
+        const financialData = {
+            month: currentMonth,
+            totalIncome,
+            totalExpenses,
+            balance: totalIncome - totalExpenses,
+            categoryExpenses,
+            budgets: budgets.map(b => ({
+                category: b.category,
+                budgetAmount: Number(b.amount),
+                spent: categoryExpenses[b.category] || 0
+            }))
+        };
+        const insights = await generateFinancialInsights(financialData);
+        res.json({ insights });
+    } catch (error) {
+        console.error('Gemini error details:', error);
+        res.status(500).json({
+            error: error.message || 'Unable to generate AI insights.'
+        });
+    }
+});
 
 app.listen(3000, () => {
     console.log("Finora running on port 3000");

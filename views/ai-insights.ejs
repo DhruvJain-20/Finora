@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights | Finora</title>
+    <link rel="stylesheet" href="/navigation.css">
+    <link rel="stylesheet" href="/ai-insights.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <main class="ai-container">
+        <h1>AI Financial Insights</h1>
+
+<div class="ai-intro">
+    <div class="ai-intro-icon">✦</div>
+    <div>
+        <h2>Your money, made clearer.</h2>
+        <p>
+            Get personalized insights into your income, spending habits,
+            budget limits, and ways to improve your financial health.
+        </p>
+    </div>
+</div>
+
+<button id="generate-insights">✦ Generate Insights</button>
+
+
+        <div id="insights-status"></div>
+        <section id="insights-result"></section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script src="/ai-insights.js"></script>
+</body>
+</html>

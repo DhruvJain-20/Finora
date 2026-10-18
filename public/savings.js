@@ -1,4 +1,8 @@
 const savingsForm = document.getElementById('savings_form');
+
+const mdate = document.getElementById('target_date');
+mdate.min = new Date().toISOString().slice(0, 10);
+
 savingsForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const goal_name = document.getElementById('goal_name').value.trim();
@@ -49,6 +53,19 @@ async function loadCurrentGoals() {
             const percentage = target > 0 ? Math.min((saved / target) * 100, 100) : 0;
             const date = goal.target_date ? goal.target_date.split('-').reverse().join(' / ') : 'No deadline';
             const div = document.createElement('div');
+            let status;
+            if(date <= new Date().toISOString().split('T')[0] && saved < target)
+            {
+                status = '<p><i class="fa-solid fa-clock" style="color: rgb(255, 212, 59);"></i>Overdue</p>';
+            }
+            else if (saved >= target)
+            {
+                status = '<p><i class="fa-solid fa-square-check" style="color: rgb(68, 215, 61);"></i>Completed</p>';
+            }
+            else
+            {
+                status = '<p><i class="fa-solid fa-hourglass-end" style="color: rgb(99, 230, 190);"></i>On Track</p>';
+            }
             div.className = 'goal-card';
             div.innerHTML = `
                 <h4></h4>
@@ -59,6 +76,7 @@ async function loadCurrentGoals() {
                     <div class="goal-progress-fill" style="width: ${percentage}%"></div>
                 </div>
                 <p>${percentage.toFixed(1)}% completed</p>
+                ${status}
                 <p>Remaining: ₹${remaining.toLocaleString('en-IN')}</p>
                 <label>
                     Amount to update (₹)

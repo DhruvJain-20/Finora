@@ -54,7 +54,7 @@ async function loadAna()
             expense += f.amount;
             if(f.category == 'Food') food += f.amount;
             else if(f.category == 'Shopping') shop += f.amount;
-            else if(f.category == 'Transaport') trans += f.amount;
+            else if(f.category == 'Transport') trans += f.amount;
             else if(f.category == 'Bills') bill += f.amount;
             else if(f.category == 'Entertainment')  entertain += f.amount;
             else if(f.category == 'Healthcare') health += f.amount;

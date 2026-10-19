@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5fb;
+    color: #1e293b;
+}
+
+/* Main container */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* Signup card */
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 36px 32px;
+    background: #ffffff;
+    border: 1px solid #e8e8f0;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(31, 20, 65, 0.08);
+}
+
+/* Heading */
+.auth-card h1 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.6px;
+    color: #241044;
+}
+
+/* Description */
+.auth-card > p:first-of-type {
+    margin: 0 0 28px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #727487;
+}
+
+/* Labels */
+.auth-card label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #343047;
+}
+
+/* Input fields */
+.auth-card input {
+    display: block;
+    width: 100%;
+    height: 46px;
+    margin: 0 0 20px;
+    padding: 0 14px;
+    border: 1px solid #dcdce8;
+    border-radius: 9px;
+    outline: none;
+    background: #fafaff;
+    color: #242137;
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s,
+                background-color 0.2s;
+}
+
+/* Focus effect */
+.auth-card input:focus {
+    border-color: #6d28d9;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+}
+
+/* Placeholder */
+.auth-card input::placeholder {
+    color: #9695a6;
+}
+
+/* Signup button */
+.auth-card button {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    margin-top: 6px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #5b21b6;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s,
+                box-shadow
+}

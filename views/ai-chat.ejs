@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finora AI Chat</title>
+
+    <link rel="stylesheet" href="/navigation.css">
+    <link rel="stylesheet" href="/ai-chat.css">
+</head>
+<body>
+
+    <%- include('partials/navbar') %>
+
+    <main class="chat-page">
+        <header class="chat-header">
+            <div>
+                <p class="chat-label">FINORA AI ASSISTANT</p>
+                <h1>Your personal finance companion</h1>
+                <p>Ask questions about saving, budgeting, and investing.</p>
+            </div>
+        </header>
+
+        <section class="chat-container">
+            <div id="chat-messages" class="chat-messages" aria-live="polite">
+                <div class="message assistant-message">
+                    <div class="message-label">Finora AI</div>
+                    <p>Hi! I'm your Finora AI assistant. Ask me anything about personal finance, saving, or investment concepts.</p>
+                </div>
+            </div>
+
+            <form id="chat-form" class="chat-form">
+                <textarea
+                    id="chat-input"
+                    placeholder="Ask a finance question..."
+                    rows="1"
+                    maxlength="2000"
+                    required
+                ></textarea>
+
+                <button id="send-button" type="submit">Send</button>
+            </form>
+
+            <p class="chat-disclaimer">
+                AI responses can be inaccurate. Investment explanations are educational,
+                not guaranteed financial outcomes.
+            </p>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script src="/ai-chat.js" defer></script>
+</body>
+</html>

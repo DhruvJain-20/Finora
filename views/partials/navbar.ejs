@@ -7,6 +7,24 @@
         <a href="/analysis">Analysis</a>
         <a href="/savings">Savings Goals</a>
         <a href="/ai-insights">AI Insights</a>
-        <a href="/" style="color: black;border: 1px solid #000;background: #fafaff;">SignOut</a>
+        <a href="/ai-chat">AI Copilot</a>
+        <button id="nav-link" style="color: black;border: 1px solid #000;background: #fafaff; height: 30px;border-radius: 5px;">SignOut</button>
     </div>
+    <script>
+        let signOutLink = document.getElementById('nav-link');
+        signOutLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            fetch('/signout', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/';
+                    } else {
+                        console.error('Sign out failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during sign out:', error);
+                });
+        });
+    </script>
 </nav>

@@ -14,7 +14,10 @@ app.use(cookieParser());
 app.set('view engine','ejs')
 app.use(express.static('public'))
 
-const { generateFinancialInsights } = require('./gemini');
+const {
+    generateFinancialInsights,
+    chatWithFinora
+} = require('./gemini');
 
 app.get('/',(req,res)=>{
     res.render('index')
@@ -24,11 +27,11 @@ app.get('/dashboard', (req, res) => {
     res.redirect('/transactions-page');
 });
 
-app.get('/transactions-page', (req, res) => {
+app.get('/transactions-page', requireAuth, (req, res) => {
     res.render('transactions');
 });
 
-app.get('/budgets-page', (req, res) => {
+app.get('/budgets-page', requireAuth, (req, res) => {
     res.render('budgets');
 });
 
@@ -202,7 +205,7 @@ app.put('/budget/:id', requireAuth, async (req, res) => {
 });
 
 
-app.get('/analysis',(req,res)=>{
+app.get('/analysis', requireAuth,(req,res)=>{
     res.render('analysis');
 })
 
@@ -262,11 +265,11 @@ app.put('/savings-goals/:id/saved', requireAuth, async (req, res) => {
     return res.json(data);
 });
 
-app.get('/savings',(req,res)=>{
+app.get('/savings', requireAuth,(req,res)=>{
     res.render('savings');
 })
 
-app.get('/ai-insights', (req, res) => {
+app.get('/ai-insights', requireAuth, (req, res) => {
     res.render('ai-insights');
 });
 
@@ -461,6 +464,170 @@ app.get('/auth-status', async (req, res) => {
         return res.status(500).json({
             authenticated: false,
             error: 'Unable to check session.'
+        });
+    }
+});
+
+app.get('/ai-chat', requireAuth, (req, res) => {
+    res.render('ai-chat');
+});
+
+app.post('/ai-chat', requireAuth, async (req, res) => {
+    const { message, history = [] } = req.body;
+
+    if (typeof message !== 'string' || !message.trim()) {
+        return res.status(400).json({
+            error: 'Please enter a message.'
+        });
+    }
+
+    if (message.length > 2000) {
+        return res.status(400).json({
+            error: 'Your message must be 2000 characters or fewer.'
+        });
+    }
+
+    if (!Array.isArray(history) || history.length > 10) {
+        return res.status(400).json({
+            error: 'Invalid conversation history.'
+        });
+    }
+
+    const validHistory = history.every(item =>
+        item &&
+        ['user', 'model'].includes(item.role) &&
+        Array.isArray(item.parts) &&
+        item.parts.length > 0 &&
+        item.parts.every(part =>
+            part &&
+            typeof part.text === 'string' &&
+            part.text.length <= 10000
+        )
+    );
+
+    if (!validHistory) {
+        return res.status(400).json({
+            error: 'Invalid conversation history format.'
+        });
+    }
+
+    try {
+
+const currentDate = new Date();
+const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+const currentYear = currentDate.getFullYear();
+const monthPrefix = `${currentYear}-${currentMonth}`;
+const monthName = currentDate.toLocaleString('en-US', {
+    month: 'long'
+});
+const budgetMonth = `${monthName} ${currentYear}`;
+
+const [
+    { data: transactions, error: transactionError },
+    { data: budgets, error: budgetError },
+    { data: goals, error: goalError }
+] = await Promise.all([
+    req.supabase
+        .from('transactions')
+        .select('amount, type, category, date')
+        .eq('user_id', req.user.id)
+        .gte('date', `${monthPrefix}-01`)
+        .lt(
+            'date',
+            new Date(currentYear, currentDate.getMonth() + 1, 1)
+                .toISOString()
+                .slice(0, 10)
+        ),
+
+    req.supabase
+        .from('budgets')
+        .select('category, amount, month')
+        .eq('user_id', req.user.id)
+        .eq('month', budgetMonth),
+
+    req.supabase
+        .from('savings_goals')
+        .select('goal_name, target_amount, saved_amount, target_date')
+        .eq('user_id', req.user.id)
+]);
+
+if (transactionError || budgetError || goalError) {
+    console.error('Financial context fetch failed:', {
+        transactions: transactionError?.message,
+        budgets: budgetError?.message,
+        goals: goalError?.message
+    });
+
+    return res.status(500).json({
+        error: 'Unable to load your financial summary right now.'
+    });
+}
+
+const financialContext = {
+    month: budgetMonth,
+    totalIncome: transactions
+        .filter(t => t.type === 'Income')
+        .reduce((sum, t) => sum + Number(t.amount || 0), 0),
+
+    totalExpenses: transactions
+        .filter(t => t.type === 'Expense')
+        .reduce((sum, t) => sum + Number(t.amount || 0), 0),
+
+    expenseBreakdown: transactions
+    .filter(t => t.type === 'Expense')
+    .reduce((breakdown, t) => {
+        const category = t.category || 'Other';
+        breakdown[category] =
+            (breakdown[category] || 0) + Number(t.amount || 0);
+        return breakdown;
+    }, {}),
+
+    budgets: budgets.map(b => ({
+        category: b.category,
+        amount: Number(b.amount || 0)
+    })),
+
+    savingsGoals: goals.map(g => ({
+        name: g.goal_name,
+        targetAmount: Number(g.target_amount || 0),
+        savedAmount: Number(g.saved_amount || 0),
+        targetDate: g.target_date
+    }))
+};
+
+       const reply = await chatWithFinora(
+    message.trim(),
+    history,
+    financialContext
+);
+        return res.json({ reply });
+    } catch (error) {
+        console.error('AI chat error:', error.message);
+
+        return res.status(500).json({
+            error: 'Finora AI could not respond right now. Please try again.'
+        });
+    }
+});
+
+app.post('/signout', async (req, res) => {
+    try {
+        const supabase = createSupabaseSession(req, res);
+
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            console.error('Sign out error:', error.message);
+            return res.status(500).json({
+                error: 'Unable to sign out.'
+            });
+        }
+
+        return res.json({ success: true });
+    } catch (error) {
+        console.error('Sign out failed:', error.message);
+        return res.status(500).json({
+            error: 'Unable to sign out.'
         });
     }
 });

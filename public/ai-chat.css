@@ -1,0 +1,249 @@
+
+* {
+    box-sizing: border-box;
+}
+
+.chat-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 35px 24px;
+    color: #252033;
+}
+
+.chat-header {
+    margin-bottom: 25px;
+}
+
+.chat-label {
+    color: #6b35a5;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.chat-header h1 {
+    font-size: clamp(25px, 4vw, 36px);
+    margin: 0 0 10px;
+}
+
+.chat-header > div > p:last-child {
+    color: #6b6875;
+    margin-top: 0;
+}
+
+.chat-container {
+    background: #ffffff;
+    border: 1px solid #e0d9eb;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(61, 0, 122, 0.07);
+}
+
+.chat-messages {
+    height: 430px;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: #faf9fc;
+}
+
+/* Chat message bubble */
+.message {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 80%;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    padding: 15px 18px;
+    overflow: visible;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    flex-shrink: 1;
+}
+
+/* Message content */
+.message p {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 6px 0 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    text-overflow: clip;
+}
+
+/* Assistant and user messages */
+.assistant-message,
+.user-message {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Ensure generated Markdown content fits inside the bubble */
+.message > * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.message pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.message img,
+.message table {
+    max-width: 100%;
+}
+
+.assistant-message {
+    align-self: flex-start;
+    background: #ffffff;
+    border: 1px solid #e5deef;
+    color: #30263d;
+    border-bottom-left-radius: 4px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: #3d007a;
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+}
+
+.message-label {
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.chat-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 18px;
+    border-top: 1px solid #eee8f5;
+    background: #ffffff;
+}
+
+#chat-input {
+    flex: 1;
+    min-width: 0;
+    max-height: 140px;
+    resize: vertical;
+    padding: 13px 15px;
+    border: 1px solid #d8cde7;
+    border-radius: 12px;
+    font: inherit;
+    outline: none;
+}
+
+#chat-input:focus {
+    border-color: #3d007a;
+    box-shadow: 0 0 0 3px rgba(61, 0, 122, 0.1);
+}
+
+#send-button {
+    border: none;
+    border-radius: 11px;
+    padding: 13px 22px;
+    background: #3d007a;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background: #5200a3;
+}
+
+#send-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chat-disclaimer {
+    padding: 0 18px 16px;
+    margin: 0;
+    color: #777180;
+    background: #ffffff;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .chat-page {
+        padding: 24px 14px;
+    }
+
+    .chat-messages {
+        height: 55vh;
+        min-height: 300px;
+        padding: 16px;
+    }
+
+    .message {
+        max-width: 92%;
+    }
+
+    .chat-form {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    #send-button {
+        padding: 13px 15px;
+    }
+}
+.message {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 80%;
+    min-width: 0;
+    height: auto;
+    padding: 15px 18px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.message-content {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-height: 1.6;
+}
+
+.message-content p {
+    margin: 6px 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.message-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.message-content img,
+.message-content table {
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .message {
+        max-width: 92%;
+    }
+}

@@ -165,3 +165,56 @@
     padding: 2px 5px;
     border-radius: 4px;
 }
+
+.message p {
+    line-height: 1.7;
+}
+
+.message p + p {
+    margin-top: 12px;
+}
+
+.message h1,
+.message h2,
+.message h3 {
+    margin: 16px 0 8px;
+    line-height: 1.35;
+    font-size: 1.05rem;
+}
+
+.message ul,
+.message ol {
+    padding-left: 22px;
+    margin: 10px 0;
+}
+
+.message li {
+    margin-bottom: 6px;
+}
+
+.message strong {
+    font-weight: 700;
+}
+
+.message code {
+    background: #f0ebf7;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.message pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: #f0ebf7;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.message blockquote {
+    border-left: 3px solid #8b62b5;
+    padding-left: 12px;
+    margin-left: 0;
+    color: #6b6875;
+}

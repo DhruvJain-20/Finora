@@ -30,18 +30,11 @@ ${JSON.stringify(financialData, null, 2)}
 
     const response = await ai.models.generateContent({
     model: "gemini-3.8-flash",
-    contents,
-    config: {
-        maxOutputTokens: 350,
-        temperature: 0.5
-    }
+    contents: prompt
 });
 
     return response.text;
 }
-
-
-
 
 async function chatWithFinora(
     message,
